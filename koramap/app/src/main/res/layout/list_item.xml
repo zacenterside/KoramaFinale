@@ -52,8 +52,8 @@
                     android:gravity="right"
                     android:text="Medium Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin_med"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin_med"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:textColor="@color/text_color"/>
             </RelativeLayout>
         </RelativeLayout>

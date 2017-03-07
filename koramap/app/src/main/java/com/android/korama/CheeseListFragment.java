@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
@@ -73,6 +74,7 @@ public class CheeseListFragment extends Fragment {
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public String mBoundString;
+            public Post mPost;
 
             public final View mView;
             public final ImageView mImageView;
@@ -113,13 +115,15 @@ public class CheeseListFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mBoundString = mValues.get(position).getTitle();
             holder.mTextView.setText(mValues.get(position).getTitle());
+            holder.mPost = mValues.get(position);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, CheeseDetailActivity.class);
-                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
+                    //intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
+                    intent.putExtra("Post",holder.mPost);
 
                     context.startActivity(intent);
                 }
