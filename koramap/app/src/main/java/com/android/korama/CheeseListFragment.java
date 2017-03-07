@@ -20,10 +20,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
@@ -60,7 +57,6 @@ public class CheeseListFragment extends Fragment {
     RecyclerView rv;
     SimpleStringRecyclerViewAdapter mSimpleStringRecyclerViewAdapter;
     LinkedList<Post> mPosts = Util.posts;
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,20 +66,25 @@ public class CheeseListFragment extends Fragment {
         return rv;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     private void setupRecyclerView(final RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         mSimpleStringRecyclerViewAdapter = new SimpleStringRecyclerViewAdapter(getActivity(), mPosts);
         recyclerView.setAdapter(mSimpleStringRecyclerViewAdapter);
 
-        recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(isLastItemDisplaying(recyclerView))
-                    new GetDataTask().execute();
-            }
-        });
-    }
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if(isLastItemDisplaying(recyclerView))
+                        new GetDataTask().execute();
+
+                }
+            });
+
+        }
+
 
 
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {
