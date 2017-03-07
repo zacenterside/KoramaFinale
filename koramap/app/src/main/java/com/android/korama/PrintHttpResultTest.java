@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
 import static com.android.korama.R.id.a;
@@ -105,15 +107,32 @@ public class PrintHttpResultTest extends AppCompatActivity {
                 Log.d("RQ","response posts : "+articles);
                 Log.d("RQ","--------End response posts");
 
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                //2016-03-02 12:31:53
 
                 //parsing json to model (Post)
                 for(int i=0 ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
                     Post p =new Post();
+
                     p.setTitle(article.getString("title"));
+
+                    p.setContent(article.getString("content"));
+
+                    p.setStatus(article.getString("status"));
+
+                    try {
+                        p.setDt(formatter.parse(article.getString("date")));
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        Log.e("RQ","Erro parsing date ");
+
+                    }
+                    Log.d("RQ","date : "+p.getDt());
+
                     JSONObject image = article.getJSONObject("thumbnail_images");
                     JSONObject image_full = image.getJSONObject("full");
-
                     p.setImage_url(image_full.getString("url"));
                     Log.d("RQ","image full url : "+image_full.getString("url"));
 

@@ -23,36 +23,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.android.korama.model.Post;
 import com.bumptech.glide.Glide;
 
 
 public class CheeseDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "cheese_name";
-
+    Post post;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        final String cheeseName = intent.getStringExtra(EXTRA_NAME);
-
+        //final String cheeseName = intent.getStringExtra(EXTRA_NAME);
+        post = (Post) getIntent().getSerializableExtra("Post");
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        CollapsingToolbarLayout collapsingToolbar =
+        TextView title = (TextView) findViewById(R.id.title_post);
+        title.setText(post.getTitle());
+        TextView content = (TextView) findViewById(R.id.content_post);
+        content.setText(post.getContent());
+        /*CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(cheeseName);
-
+        collapsingToolbar.setTitle(post.getTitle());
+        */
         loadBackdrop();
     }
 
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(Cheeses.getRandomCheeseDrawable()).centerCrop().into(imageView);
+        Glide.with(this).load(post.getImage_url()).centerCrop().into(imageView);
     }
 
     @Override

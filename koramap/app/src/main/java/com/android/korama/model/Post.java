@@ -16,6 +16,7 @@ public class Post implements Serializable {
     private String source;
     private String imageUrl; //full
     private String category;
+    private String status; //publish or not
 
 
 
@@ -81,5 +82,13 @@ public class Post implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
