@@ -84,7 +84,6 @@ public class PrintHttpResultTest extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
             HttpUrl.Builder urlBuilder = HttpUrl.parse("http://korama.net").newBuilder();
             urlBuilder.addQueryParameter("json", "get_recent_posts");
-            urlBuilder.addQueryParameter("page", "303");
             urlBuilder.addQueryParameter("count", "5");
             String url = urlBuilder.build().toString();
 
