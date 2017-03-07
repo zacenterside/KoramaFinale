@@ -72,16 +72,19 @@ public class CheeseListFragment extends Fragment {
         mSimpleStringRecyclerViewAdapter = new SimpleStringRecyclerViewAdapter(getActivity(), mPosts);
         recyclerView.setAdapter(mSimpleStringRecyclerViewAdapter);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
                     if(isLastItemDisplaying(recyclerView))
                         new GetDataTask().execute();
+
                 }
             });
+
         }
-    }
+
 
 
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {
