@@ -59,12 +59,17 @@ public class CheeseListFragment extends Fragment {
     RecyclerView rv;
     SimpleStringRecyclerViewAdapter mSimpleStringRecyclerViewAdapter;
     LinkedList<Post> mPosts = Util.posts;
+    int category;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rv = (RecyclerView) inflater.inflate(
                 R.layout.fragment_cheese_list, container, false);
+
+        category = getArguments().getInt("category"); // !each fragment has its own category
         setupRecyclerView(rv);
+
+
         return rv;
     }
 
@@ -231,40 +236,51 @@ public class CheeseListFragment extends Fragment {
                 //getting posts from response
                 JSONArray articles = jsonObject.getJSONArray("posts");
                 mPosts = new LinkedList<>();
-                Log.d("RQ","response posts : "+articles);
-                Log.d("RQ","--------End response posts");
+
 
 
                 //parsing json to model (Post)
                 for(int i=0 ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
-                    Post p =new Post();
-
-                    p.setTitle(article.getString("title"));
-
-                    p.setContent(article.getString("content"));
-
-                    p.setStatus(article.getString("status"));
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        p.setDt(formatter.parse(article.getString("date")));
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        Log.e("RQ","Erro parsing date ");
+                    boolean rightPost = false;
+                    JSONArray categories = article.getJSONArray("categories");
+                    Log.d("RQ", "category : " + category);
+                    Log.d("RQ", "categories : " + categories);
+                    for(int j=0 ; i<articles.length();i++){
+                        JSONObject categorie = new JSONObject(categories.get(i).toString());
+                        if(categorie.getInt("id") == category){
+                            rightPost = true;
+                            break;
+                        }
 
                     }
-                    Log.d("RQ","date : "+p.getDt());
+                    if(rightPost) {
+                        Post p = new Post();
+                        p.setTitle(article.getString("title"));
 
-                    JSONObject image = article.getJSONObject("thumbnail_images");
-                    JSONObject image_full = image.getJSONObject("full");
-                    p.setImage_url(image_full.getString("url"));
-                    Log.d("RQ","image full url : "+image_full.getString("url"));
+                        p.setContent(article.getString("content"));
 
-                    mPosts.add(p);
+                        p.setStatus(article.getString("status"));
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        try {
+                            p.setDt(formatter.parse(article.getString("date")));
 
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            Log.e("RQ", "Erro parsing date ");
+
+                        }
+
+
+                        JSONObject image = article.getJSONObject("thumbnail_images");
+                        JSONObject image_full = image.getJSONObject("full");
+                        p.setImage_url(image_full.getString("url"));
+
+
+                        mPosts.add(p);
+                    }
                 }
-                Log.d("RQ","model posts : "+Util.posts);
+                //Log.d("RQ","model posts : "+Util.posts);
 
             } catch (IOException e) {
                 e.printStackTrace();

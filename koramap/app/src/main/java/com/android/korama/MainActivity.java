@@ -129,9 +129,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new CheeseListFragment(), "Category 1");
-        adapter.addFragment(new CheeseListFragment(), "Category 2");
-        adapter.addFragment(new CheeseListFragment(), "Category 3");
+
+        CheeseListFragment frag1 = new CheeseListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("category", 4);
+        frag1.setArguments(bundle);
+
+        CheeseListFragment frag2 = new CheeseListFragment();
+        bundle = new Bundle();
+        bundle.putInt("category", 10);
+        frag2.setArguments(bundle);
+
+        CheeseListFragment frag3 = new CheeseListFragment();
+        bundle = new Bundle();
+        bundle.putInt("category", 6);
+        frag3.setArguments(bundle);
+
+        adapter.addFragment(frag1,getString(R.string.category_4));
+        adapter.addFragment(frag2, getString(R.string.category_10));
+        adapter.addFragment(frag3, getString(R.string.category_6));
         viewPager.setAdapter(adapter);
     }
 

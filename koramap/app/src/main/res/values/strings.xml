@@ -33,8 +33,9 @@
   <string name="category_1">category 1</string>
   <string name="category_2">category 2</string>
   <string name="category_3">category 3</string>
-  <string name="category_4">category 4</string>
+  <string name="category_4">أسود الأطلس</string>
   <string name="category_5">category 5</string>
-  <string name="category_6">category 6</string>
+  <string name="category_6">الكرة العربية</string>
+  <string name="category_10">فيديو</string>
 
 </resources>
