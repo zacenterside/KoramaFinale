@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -54,11 +55,21 @@ public class CheeseDetailActivity extends AppCompatActivity {
         w.setPluginState(WebSettings.PluginState.ON);
         w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         w.setJavaScriptEnabled(true);
-        webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
+       // webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
         /*CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(post.getTitle());
         */
+
+        webView.getSettings().setJavaScriptEnabled(true);
+
+
+        webView.setWebChromeClient(new WebChromeClient());
+        //webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
+        webView.loadDataWithBaseURL(post.getContent(), "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
+        webView.getSettings().setUseWideViewPort(false);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
         loadBackdrop();
     }
 

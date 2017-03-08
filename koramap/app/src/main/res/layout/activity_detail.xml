@@ -89,7 +89,8 @@
                     <WebView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/webContent"></WebView>
+                        android:id="@+id/webContent"
+                        android:layout_gravity="center"></WebView>
 
                     <TextView
                         android:id="@+id/content_post"
