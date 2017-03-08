@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +50,10 @@ public class CheeseDetailActivity extends AppCompatActivity {
         TextView content = (TextView) findViewById(R.id.content_post);
         //content.setText(post.getContent());
         WebView webView = (WebView) findViewById(R.id.webContent);
+        WebSettings w = webView.getSettings();
+        w.setPluginState(WebSettings.PluginState.ON);
+        w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        w.setJavaScriptEnabled(true);
         webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
         /*CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
