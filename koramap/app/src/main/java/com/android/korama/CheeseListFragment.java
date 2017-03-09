@@ -67,6 +67,7 @@ public class CheeseListFragment extends Fragment {
                 R.layout.fragment_cheese_list, container, false);
 
         category = getArguments().getInt("category"); // !each fragment has its own category
+        Log.d("RQ","category : "+category);
         setupRecyclerView(rv);
 
 
@@ -217,7 +218,11 @@ public class CheeseListFragment extends Fragment {
             urlBuilder.addQueryParameter("json", "get_recent_posts");
             loadedPosts+=10;
             urlBuilder.addQueryParameter("count", loadedPosts+"");
+            urlBuilder.addQueryParameter("cat", String.valueOf(category));
+            Log.d("RQ","cat : "+String.valueOf(category));
             String url = urlBuilder.build().toString();
+
+            Log.d("RQ","url : "+url);
 
 
             Request request = new Request.Builder()
@@ -242,19 +247,7 @@ public class CheeseListFragment extends Fragment {
                 //parsing json to model (Post)
                 for(int i=0 ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
-                    boolean rightPost = false;
-                    JSONArray categories = article.getJSONArray("categories");
-                    Log.d("RQ", "category : " + category);
-                    Log.d("RQ", "categories : " + categories);
-                    for(int j=0 ; i<articles.length();i++){
-                        JSONObject categorie = new JSONObject(categories.get(i).toString());
-                        if(categorie.getInt("id") == category){
-                            rightPost = true;
-                            break;
-                        }
 
-                    }
-                    if(rightPost) {
                         Post p = new Post();
                         p.setTitle(article.getString("title"));
 
@@ -278,7 +271,7 @@ public class CheeseListFragment extends Fragment {
 
 
                         mPosts.add(p);
-                    }
+
                 }
                 //Log.d("RQ","model posts : "+Util.posts);
 
