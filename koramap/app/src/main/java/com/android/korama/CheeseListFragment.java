@@ -91,8 +91,11 @@ public class CheeseListFragment extends Fragment {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-                    if(isLastItemDisplaying(recyclerView))
+                    if(isLastItemDisplaying(recyclerView)){
+                        loadedPosts+=10;
                         new GetDataTask().execute();
+
+                    }
 
                 }
             });
@@ -186,7 +189,7 @@ public class CheeseListFragment extends Fragment {
 
             Picasso.with(holder.mImageView.getContext())
                     .load(mValues.get(position).getImage_url())
-                    .placeholder(R.drawable.ic_menu)
+                    .placeholder(R.drawable.article)
                     .error(R.drawable.ic_menu)
                     .into(holder.mImageView);
         }
@@ -222,7 +225,7 @@ public class CheeseListFragment extends Fragment {
             OkHttpClient client = new OkHttpClient();
             HttpUrl.Builder urlBuilder = HttpUrl.parse("http://korama.net").newBuilder();
             urlBuilder.addQueryParameter("json", "get_recent_posts");
-            loadedPosts+=10;
+
             urlBuilder.addQueryParameter("count", loadedPosts+"");
             urlBuilder.addQueryParameter("cat", categorie+"");
             String url = urlBuilder.build().toString();
