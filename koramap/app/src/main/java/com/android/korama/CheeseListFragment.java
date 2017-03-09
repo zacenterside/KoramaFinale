@@ -59,12 +59,24 @@ public class CheeseListFragment extends Fragment {
     RecyclerView rv;
     SimpleStringRecyclerViewAdapter mSimpleStringRecyclerViewAdapter;
     LinkedList<Post> mPosts = Util.posts;
+
+    int categorie;
+
+
+    public CheeseListFragment setCategorie(int i){
+
+        categorie=i;
+        return this;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rv = (RecyclerView) inflater.inflate(
                 R.layout.fragment_cheese_list, container, false);
         setupRecyclerView(rv);
+        new CheeseListFragment.GetDataTask().execute();
         return rv;
     }
 
@@ -212,7 +224,7 @@ public class CheeseListFragment extends Fragment {
             urlBuilder.addQueryParameter("json", "get_recent_posts");
             loadedPosts+=10;
             urlBuilder.addQueryParameter("count", loadedPosts+"");
-            urlBuilder.addQueryParameter("cat", "6");
+            urlBuilder.addQueryParameter("cat", categorie+"");
             String url = urlBuilder.build().toString();
 
 

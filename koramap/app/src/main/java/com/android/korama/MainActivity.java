@@ -126,11 +126,19 @@ public class MainActivity extends AppCompatActivity {
     //--------------------------End------------------------------
 
     private void setupViewPager(ViewPager viewPager) {
+        viewPager.setVerticalScrollBarEnabled(true);
+        viewPager.setHorizontalScrollBarEnabled(true);
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new CheeseListFragment(), "Category 1");
-        adapter.addFragment(new CheeseListFragment1(), "Category 2");
-        adapter.addFragment(new CheeseListFragment2(), "Category 3");
-        adapter.addFragment(new CheeseListFragment(), "Category 5");
+        adapter.addFragment(new CheeseListFragment().setCategorie(3), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(4), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(5), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(6), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(7), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(33), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(8), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(9), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(1), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(10), "Category 1");
         viewPager.setAdapter(adapter);
     }
 
@@ -157,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         public void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
             mFragmentTitles.add(title);
+
         }
 
         @Override
