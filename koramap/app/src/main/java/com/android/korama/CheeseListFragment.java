@@ -212,6 +212,7 @@ public class CheeseListFragment extends Fragment {
             urlBuilder.addQueryParameter("json", "get_recent_posts");
             loadedPosts+=10;
             urlBuilder.addQueryParameter("count", loadedPosts+"");
+            urlBuilder.addQueryParameter("cat", "6");
             String url = urlBuilder.build().toString();
 
 
