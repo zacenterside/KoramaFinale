@@ -16,16 +16,13 @@
 
 package com.android.korama;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,19 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,13 +44,13 @@ public class CheeseListFragment extends Fragment {
     int loadedPosts= 5;
     RecyclerView rv;
     SimpleStringRecyclerViewAdapter mSimpleStringRecyclerViewAdapter;
-    LinkedList<Post> mPosts = Util.posts;
+    LinkedList<Post> mPosts ;
 
     int categorie;
 
 
     public CheeseListFragment setCategorie(int i){
-
+        mPosts = Util.getListCategorie(i);
         categorie=i;
         return this;
     }
@@ -76,7 +62,6 @@ public class CheeseListFragment extends Fragment {
         rv = (RecyclerView) inflater.inflate(
                 R.layout.fragment_cheese_list, container, false);
         setupRecyclerView(rv);
-        new CheeseListFragment.GetDataTask().execute();
         return rv;
     }
 
@@ -93,7 +78,8 @@ public class CheeseListFragment extends Fragment {
                     super.onScrollStateChanged(recyclerView, newState);
                     if(isLastItemDisplaying(recyclerView)){
                         loadedPosts+=10;
-                        new GetDataTask().execute();
+                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false).execute();
+
 
                     }
 
@@ -201,104 +187,5 @@ public class CheeseListFragment extends Fragment {
     }
 
 
-    class GetDataTask extends AsyncTask<String, String, String> {
 
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            /**
-             * Progress Dialog for User Interaction
-             */
-            dialog = new ProgressDialog(getContext());
-            dialog.setMessage("Chargement..");
-            dialog.show();
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            //creating request
-            OkHttpClient client = new OkHttpClient();
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://korama.net").newBuilder();
-            urlBuilder.addQueryParameter("json", "get_recent_posts");
-
-            urlBuilder.addQueryParameter("count", loadedPosts+"");
-            urlBuilder.addQueryParameter("cat", categorie+"");
-            String url = urlBuilder.build().toString();
-
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-            String result="f";
-
-            try {
-                //getting response
-                Response r =client.newCall(request).execute();
-                result = r.body().string();
-
-                //full response
-                JSONObject jsonObject = new JSONObject(result);
-
-                //getting posts from response
-                JSONArray articles = jsonObject.getJSONArray("posts");
-                mPosts = new LinkedList<>();
-                Log.d("RQ","response posts : "+articles);
-                Log.d("RQ","--------End response posts");
-
-
-                //parsing json to model (Post)
-                for(int i=0 ; i<articles.length();i++){
-                    JSONObject article = new JSONObject(articles.get(i).toString());
-                    Post p =new Post();
-
-                    p.setTitle(article.getString("title"));
-
-                    p.setContent(article.getString("content"));
-
-                    p.setStatus(article.getString("status"));
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        p.setDt(formatter.parse(article.getString("date")));
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        Log.e("RQ","Erro parsing date ");
-
-                    }
-                    Log.d("RQ","date : "+p.getDt());
-
-                    JSONObject image = article.getJSONObject("thumbnail_images");
-                    JSONObject image_full = image.getJSONObject("full");
-                    p.setImage_url(image_full.getString("url"));
-                    Log.d("RQ","image full url : "+image_full.getString("url"));
-
-                    mPosts.add(p);
-
-                }
-                Log.d("RQ","model posts : "+Util.posts);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String aVoid) {
-            super.onPostExecute(aVoid);
-            rv.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), mPosts));
-            rv.scrollToPosition(loadedPosts-12);
-            dialog.dismiss();
-
-        }
-    }
 }
