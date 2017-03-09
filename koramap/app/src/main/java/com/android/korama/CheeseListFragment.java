@@ -19,12 +19,15 @@ package com.android.korama;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -75,6 +78,8 @@ public class CheeseListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rv = (RecyclerView) inflater.inflate(
                 R.layout.fragment_cheese_list, container, false);
+
+
         setupRecyclerView(rv);
         new CheeseListFragment.GetDataTask().execute();
         return rv;
@@ -140,6 +145,10 @@ public class CheeseListFragment extends Fragment {
                 mView = view;
                 mImageView = (ImageView) view.findViewById(R.id.avatar);
                 mTextView = (TextView) view.findViewById(android.R.id.text1);
+
+
+
+
             }
 
             @Override
@@ -162,6 +171,9 @@ public class CheeseListFragment extends Fragment {
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
+            TextView title = (TextView) view.findViewById(android.R.id.text1);
+            Typeface font = Typeface.createFromAsset(parent.getContext().getAssets(), "fonts/BElham.ttf");
+            title.setTypeface(font);
             view.setBackgroundResource(mBackground);
             return new ViewHolder(view);
         }
@@ -169,7 +181,13 @@ public class CheeseListFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mBoundString = mValues.get(position).getTitle();
-            holder.mTextView.setText(mValues.get(position).getTitle());
+            String goodTitle= mValues.get(position).getTitle();
+            if(goodTitle.length()>60){
+                goodTitle = goodTitle.substring(0,60);
+                goodTitle += "...";
+            }
+
+            holder.mTextView.setText(goodTitle);
             holder.mPost = mValues.get(position);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -247,13 +265,20 @@ public class CheeseListFragment extends Fragment {
                 Log.d("RQ","response posts : "+articles);
                 Log.d("RQ","--------End response posts");
 
-
+                String goodTitle;
                 //parsing json to model (Post)
                 for(int i=0 ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
                     Post p =new Post();
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        goodTitle = Html.fromHtml(article.getString("title"), Html.FROM_HTML_MODE_LEGACY).toString();
+                    }
+                    else
+                    {
+                        goodTitle = Html.fromHtml(article.getString("title")).toString();
+                    }
 
-                    p.setTitle(article.getString("title"));
+                    p.setTitle(goodTitle);
 
                     p.setContent(article.getString("content"));
 
