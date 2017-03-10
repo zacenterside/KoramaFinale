@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
@@ -45,13 +46,15 @@ public class CheeseListFragment extends Fragment {
     RecyclerView rv;
     SimpleStringRecyclerViewAdapter mSimpleStringRecyclerViewAdapter;
     LinkedList<Post> mPosts ;
+    ProgressBar p;
 
     int categorie;
 
 
-    public CheeseListFragment setCategorie(int i){
+    public CheeseListFragment setCategorie(int i,ProgressBar pb){
         mPosts = Util.getListCategorie(i);
         categorie=i;
+        p=pb;
         return this;
     }
 
@@ -78,7 +81,7 @@ public class CheeseListFragment extends Fragment {
                     super.onScrollStateChanged(recyclerView, newState);
                     if(isLastItemDisplaying(recyclerView)){
                         loadedPosts+=10;
-                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false).execute();
+                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false,p).execute();
 
 
                     }

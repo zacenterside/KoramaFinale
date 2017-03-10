@@ -1,11 +1,14 @@
 package com.android.korama;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.korama.model.Post;
 import com.squareup.okhttp.HttpUrl;
@@ -37,12 +40,14 @@ public class LoadData {
         int loadedPosts;
         int categorie;
         boolean isSpalsh;
+        ProgressBar pb;
 
-        public GetDataTask(RecyclerView rv, Context context,int l,int cat,LinkedList<Post> posts,boolean isSplash) {
+        public GetDataTask(RecyclerView rv, Context context,int l,int cat,LinkedList<Post> posts,boolean isSplash,ProgressBar pb) {
             mRecyclerView=rv;
             c=context;
             loadedPosts=l;
             categorie=cat;
+            this.pb=pb;
 
             this.isSpalsh = isSplash;
         }
@@ -50,12 +55,7 @@ public class LoadData {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            /**
-             * Progress Dialog for User Interaction
-             */
-            dialog = new ProgressDialog(c);
-            dialog.setMessage("Chargement..");
-            dialog.show();
+            pb.setVisibility(View.VISIBLE);
         }
 
 
@@ -142,9 +142,10 @@ public class LoadData {
 
             mRecyclerView.setAdapter(new CheeseListFragment.SimpleStringRecyclerViewAdapter(c,Util.getListCategorie(categorie)));
             mRecyclerView.scrollToPosition(loadedPosts-12);
-            dialog.dismiss();
-            if(isSpalsh)
+            pb.setVisibility(View.INVISIBLE);
+            if(isSpalsh){
                 c.startActivity(new Intent(c,MainActivity.class));
+                ((Activity)c).finish();}
 
         }
     }

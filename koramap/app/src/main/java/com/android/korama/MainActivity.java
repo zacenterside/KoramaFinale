@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        pb= (ProgressBar) findViewById(R.id.pb);
+        pb.setVisibility(View.INVISIBLE);
 
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -129,16 +135,16 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setVerticalScrollBarEnabled(true);
         viewPager.setHorizontalScrollBarEnabled(true);
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new CheeseListFragment().setCategorie(3), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(4), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(5), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(6), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(7), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(33), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(8), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(9), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(1), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(10), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(3,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(4,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(5,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(6,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(7,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(33,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(8,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(9,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(1,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(10,pb), "Category 1");
         viewPager.setAdapter(adapter);
     }
 
