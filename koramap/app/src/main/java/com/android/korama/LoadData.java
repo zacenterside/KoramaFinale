@@ -69,8 +69,8 @@ public class LoadData {
             OkHttpClient client = new OkHttpClient();
             HttpUrl.Builder urlBuilder = HttpUrl.parse("http://korama.net").newBuilder();
             urlBuilder.addQueryParameter("json", "get_recent_posts");
-
-            urlBuilder.addQueryParameter("count", loadedPosts+"");
+            int l=loadedPosts+10;
+            urlBuilder.addQueryParameter("count", l+"");
 
             urlBuilder.addQueryParameter("cat", categorie+"");
             String url = urlBuilder.build().toString();
@@ -91,13 +91,13 @@ public class LoadData {
 
                 //getting posts from response
                 JSONArray articles = jsonObject.getJSONArray("posts");
-                Util.getListCategorie(categorie).clear();
+                //Util.getListCategorie(categorie).clear();
                 Log.d("RQ","response posts : "+articles);
                 Log.d("RQ","--------End response posts");
                 System.out.println("llllebght"+articles.length());
                 String goodTitle;
                 //parsing json to model (Post)
-                for(int i=0 ; i<articles.length();i++){
+                for(int i=loadedPosts ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
                     Post p =new Post();
                     if (Build.VERSION.SDK_INT >= 24) {
@@ -130,8 +130,8 @@ public class LoadData {
                     p.setImage_url(image_full.getString("url"));
                     Log.d("RQ","image full url : "+image_full.getString("url"));
 
-
                     Util.getListCategorie(categorie).add(p) ;
+                    System.out.println("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
                 }
                // Log.d("RQ","model posts : "+Util.posts);
@@ -149,13 +149,12 @@ public class LoadData {
         @Override
         protected void onPostExecute(String aVoid) {
             super.onPostExecute(aVoid);
-
-            mRecyclerView.setAdapter(new CheeseListFragment.SimpleStringRecyclerViewAdapter(c,Util.getListCategorie(categorie)));
-            mRecyclerView.scrollToPosition(loadedPosts-12);
             pb.setVisibility(View.INVISIBLE);
             if(isSpalsh){
                 c.startActivity(new Intent(c,MainActivity.class));
                 ((Activity)c).finish();}
+            if(mRecyclerView.getAdapter()!=null){
+                mRecyclerView.getAdapter().notifyDataSetChanged();}
 
         }
     }

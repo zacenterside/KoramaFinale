@@ -83,9 +83,9 @@ public class CheeseListFragment extends Fragment {
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     if(isLastItemDisplaying(recyclerView)){
-                        loadedPosts+=10;
-                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false,p).execute();
 
+                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false,p).execute();
+                        loadedPosts+=10;
 
                     }
 
