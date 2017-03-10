@@ -52,9 +52,14 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_done" />
 -->
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>

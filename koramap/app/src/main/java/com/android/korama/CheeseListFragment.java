@@ -16,40 +16,35 @@
 
 package com.android.korama;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
+=======
+>>>>>>> origin/develop
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+<<<<<<< HEAD
 import android.text.Html;
 import android.util.Log;
+=======
+>>>>>>> origin/develop
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,14 +56,16 @@ public class CheeseListFragment extends Fragment {
     int loadedPosts= 5;
     RecyclerView rv;
     SimpleStringRecyclerViewAdapter mSimpleStringRecyclerViewAdapter;
-    LinkedList<Post> mPosts = Util.posts;
+    LinkedList<Post> mPosts ;
+    ProgressBar p;
 
     int categorie;
 
 
-    public CheeseListFragment setCategorie(int i){
-
+    public CheeseListFragment setCategorie(int i,ProgressBar pb){
+        mPosts = Util.getListCategorie(i);
         categorie=i;
+        p=pb;
         return this;
     }
 
@@ -81,7 +78,6 @@ public class CheeseListFragment extends Fragment {
 
 
         setupRecyclerView(rv);
-        new CheeseListFragment.GetDataTask().execute();
         return rv;
     }
 
@@ -96,8 +92,12 @@ public class CheeseListFragment extends Fragment {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-                    if(isLastItemDisplaying(recyclerView))
-                        new GetDataTask().execute();
+                    if(isLastItemDisplaying(recyclerView)){
+                        loadedPosts+=10;
+                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false,p).execute();
+
+
+                    }
 
                 }
             });
@@ -204,7 +204,7 @@ public class CheeseListFragment extends Fragment {
 
             Picasso.with(holder.mImageView.getContext())
                     .load(mValues.get(position).getImage_url())
-                    .placeholder(R.drawable.ic_menu)
+                    .placeholder(R.drawable.article)
                     .error(R.drawable.ic_menu)
                     .into(holder.mImageView);
         }
@@ -216,6 +216,7 @@ public class CheeseListFragment extends Fragment {
     }
 
 
+<<<<<<< HEAD
     class GetDataTask extends AsyncTask<String, String, String> {
 
         ProgressDialog dialog;
@@ -323,4 +324,7 @@ public class CheeseListFragment extends Fragment {
 
         }
     }
+=======
+
+>>>>>>> origin/develop
 }
