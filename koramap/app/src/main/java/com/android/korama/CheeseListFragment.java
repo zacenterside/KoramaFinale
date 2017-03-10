@@ -18,22 +18,12 @@ package com.android.korama;
 
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.os.Build;
-=======
->>>>>>> origin/develop
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-<<<<<<< HEAD
-import android.text.Html;
-import android.util.Log;
-=======
->>>>>>> origin/develop
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -216,115 +206,7 @@ public class CheeseListFragment extends Fragment {
     }
 
 
-<<<<<<< HEAD
-    class GetDataTask extends AsyncTask<String, String, String> {
-
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            /**
-             * Progress Dialog for User Interaction
-             */
-            dialog = new ProgressDialog(getContext());
-            dialog.setMessage("Chargement..");
-            dialog.show();
-        }
 
 
-        @Override
-        protected String doInBackground(String... params) {
 
-
-            //creating request
-            OkHttpClient client = new OkHttpClient();
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://korama.net").newBuilder();
-            urlBuilder.addQueryParameter("json", "get_recent_posts");
-            loadedPosts+=10;
-            urlBuilder.addQueryParameter("count", loadedPosts+"");
-            urlBuilder.addQueryParameter("cat", categorie+"");
-            String url = urlBuilder.build().toString();
-
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-            String result="f";
-
-            try {
-                //getting response
-                Response r =client.newCall(request).execute();
-                result = r.body().string();
-
-                //full response
-                JSONObject jsonObject = new JSONObject(result);
-
-                //getting posts from response
-                JSONArray articles = jsonObject.getJSONArray("posts");
-                mPosts = new LinkedList<>();
-                Log.d("RQ","response posts : "+articles);
-                Log.d("RQ","--------End response posts");
-
-                String goodTitle;
-                //parsing json to model (Post)
-                for(int i=0 ; i<articles.length();i++){
-                    JSONObject article = new JSONObject(articles.get(i).toString());
-                    Post p =new Post();
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        goodTitle = Html.fromHtml(article.getString("title"), Html.FROM_HTML_MODE_LEGACY).toString();
-                    }
-                    else
-                    {
-                        goodTitle = Html.fromHtml(article.getString("title")).toString();
-                    }
-
-                    p.setTitle(goodTitle);
-
-                    p.setContent(article.getString("content"));
-
-                    p.setStatus(article.getString("status"));
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        p.setDt(formatter.parse(article.getString("date")));
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        Log.e("RQ","Erro parsing date ");
-
-                    }
-                    Log.d("RQ","date : "+p.getDt());
-
-                    JSONObject image = article.getJSONObject("thumbnail_images");
-                    JSONObject image_full = image.getJSONObject("full");
-                    p.setImage_url(image_full.getString("url"));
-                    Log.d("RQ","image full url : "+image_full.getString("url"));
-
-                    mPosts.add(p);
-
-                }
-                Log.d("RQ","model posts : "+Util.posts);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String aVoid) {
-            super.onPostExecute(aVoid);
-            rv.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), mPosts));
-            rv.scrollToPosition(loadedPosts-12);
-            dialog.dismiss();
-
-        }
-    }
-=======
-
->>>>>>> origin/develop
 }

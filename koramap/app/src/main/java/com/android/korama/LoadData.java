@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -93,13 +95,21 @@ public class LoadData {
                 Log.d("RQ","response posts : "+articles);
                 Log.d("RQ","--------End response posts");
                 System.out.println("llllebght"+articles.length());
-
+                String goodTitle;
                 //parsing json to model (Post)
                 for(int i=0 ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
                     Post p =new Post();
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        goodTitle = Html.fromHtml(article.getString("title"), Html.FROM_HTML_MODE_LEGACY).toString();
+                    }
+                    else
+                    {
+                        goodTitle = Html.fromHtml(article.getString("title")).toString();
+                    }
 
-                    p.setTitle(article.getString("title"));
+                    p.setTitle(goodTitle);
+
 
                     p.setContent(article.getString("content"));
 
