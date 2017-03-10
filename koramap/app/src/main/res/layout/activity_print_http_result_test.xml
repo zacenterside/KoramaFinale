@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     android:id="@+id/activity_print_http_result_test"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.android.korama.PrintHttpResultTest"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:gravity="center_vertical"
 
+    android:background="#fff">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_logo"/>
+        android:src="@drawable/logomin"
+        android:layout_margin="5dp"/>
+
+
+
 
     <ProgressBar
     android:layout_width="70dp"
     android:layout_height="70dp"
     android:id="@+id/pb"
-    android:layout_gravity="center"/>
-</LinearLayout>
+    android:layout_gravity="bottom|center"/>
+</FrameLayout>
