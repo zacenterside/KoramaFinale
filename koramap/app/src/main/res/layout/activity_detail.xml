@@ -168,5 +168,15 @@
         android:src="@drawable/ic_discuss"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"/>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|left|end"
+        android:src="@drawable/share"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        android:id="@+id/share"
+        app:backgroundTint="#fff"/>
 
 </android.support.design.widget.CoordinatorLayout>

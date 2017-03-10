@@ -112,6 +112,7 @@ public class LoadData {
 
 
                     p.setContent(article.getString("content"));
+                    p.setUrl(article.getString("url"));
 
                     p.setStatus(article.getString("status"));
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -124,13 +125,15 @@ public class LoadData {
 
                     }
                     Log.d("RQ","date : "+p.getDt());
-
+            if(article.has("thumbnail_images")){
                     JSONObject image = article.getJSONObject("thumbnail_images");
                     JSONObject image_full = image.getJSONObject("full");
                     p.setImage_url(image_full.getString("url"));
                     Log.d("RQ","image full url : "+image_full.getString("url"));
 
-                    Util.getListCategorie(categorie).add(p) ;
+                    System.out.println("rrrrrrrrrrrr   "+ article.get("categories").toString() );
+
+                    Util.getListCategorie(categorie).add(p) ;}
                     System.out.println("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
                 }

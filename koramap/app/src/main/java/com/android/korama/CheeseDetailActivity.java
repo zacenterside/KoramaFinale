@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -54,6 +55,14 @@ public class CheeseDetailActivity extends AppCompatActivity {
         WebSettings w = webView.getSettings();
         w.setPluginState(WebSettings.PluginState.ON);
         w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+        findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share(post.getUrl());
+            }
+        });
+
         w.setJavaScriptEnabled(true);
        // webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
         /*CollapsingToolbarLayout collapsingToolbar =
@@ -82,5 +91,17 @@ public class CheeseDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sample_actions, menu);
         return true;
+    }
+
+
+    public void share(String s){
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, s);
+        startActivity(Intent.createChooser(sharingIntent,"bitch" ));
+
+
     }
 }

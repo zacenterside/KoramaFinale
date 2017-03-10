@@ -18,32 +18,57 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/cat1"
             android:icon="@drawable/ic_dashboard"
-            android:title="Home" />
+            android:title="@string/category_1" />
+
         <item
-            android:id="@+id/nav_messages"
-            android:icon="@drawable/ic_event"
-            android:title="Messages" />
+            android:id="@+id/cat2"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_2" />
+
         <item
-            android:id="@+id/nav_friends"
-            android:icon="@drawable/ic_headset"
-            android:title="Friends" />
+            android:id="@+id/cat3"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_3" />
+
         <item
-            android:id="@+id/nav_discussion"
-            android:icon="@drawable/ic_forum"
-            android:title="Discussion" />
+            android:id="@+id/cat4"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_4" />
+
+        <item
+            android:id="@+id/cat5"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_5" />
+
+        <item
+            android:id="@+id/cat6"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_6" />
+
+        <item
+            android:id="@+id/cat7"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_7" />
+
+        <item
+            android:id="@+id/cat8"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_8" />
+        <item
+            android:id="@+id/cat9"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_9" />
+        <item
+            android:id="@+id/cat10"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/category_10" />
+
+
+
     </group>
 
-    <item android:title="Sub items">
-        <menu>
-            <item
-                android:icon="@drawable/ic_dashboard"
-                android:title="Sub item 1" />
-            <item
-                android:icon="@drawable/ic_forum"
-                android:title="Sub item 2" />
-        </menu>
-    </item>
+
 
 </menu>

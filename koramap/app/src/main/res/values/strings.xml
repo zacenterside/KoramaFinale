@@ -30,11 +30,15 @@
   <string name="menu_night_mode_day">Day (always)</string>
   <string name="menu_night_mode_night">Night (always)</string>
   <string name="menu_night_mode_auto">Auto</string>
-  <string name="category_1">category 1</string>
-  <string name="category_2">category 2</string>
-  <string name="category_3">category 3</string>
-  <string name="category_4">category 4</string>
-  <string name="category_5">category 5</string>
-  <string name="category_6">category 6</string>
+  <string name="category_1">أخر الأخبار</string>
+  <string name="category_2">أسود الأطلس</string>
+  <string name="category_3">الكرة العالمية</string>
+  <string name="category_4">الكرة العربية</string>
+  <string name="category_5">الكرة المغربية</string>
+  <string name="category_6">بث المباريات</string>
+  <string name="category_7">جماهير</string>
+  <string name="category_8">رياضات أخرى</string>
+  <string name="category_9">فيديو</string>
+  <string name="category_10">غير مصنف</string>
 
 </resources>

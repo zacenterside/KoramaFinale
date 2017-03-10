@@ -2,6 +2,7 @@ package com.android.korama;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
@@ -69,6 +70,46 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.cat1:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.cat2:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.cat3:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.cat4:
+                        viewPager.setCurrentItem(3);
+                        break;
+                    case R.id.cat5:
+                        viewPager.setCurrentItem(4);
+                        break;
+                    case R.id.cat6:
+                        viewPager.setCurrentItem(5);
+                        break;
+                    case R.id.cat7:
+                        viewPager.setCurrentItem(6);
+                        break;
+                    case R.id.cat8:
+                        viewPager.setCurrentItem(7);
+                        break;
+                    case R.id.cat9:
+                        viewPager.setCurrentItem(8);
+                        break;
+                    case R.id.cat10:
+                        viewPager.setCurrentItem(9);
+                        break;
+                }
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
 
     }
 
@@ -135,16 +176,16 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setVerticalScrollBarEnabled(true);
         viewPager.setHorizontalScrollBarEnabled(true);
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new CheeseListFragment().setCategorie(3,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(4,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(5,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(6,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(7,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(33,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(8,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(9,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(1,pb), "Category 1");
-        adapter.addFragment(new CheeseListFragment().setCategorie(10,pb), "Category 1");
+        adapter.addFragment(new CheeseListFragment().setCategorie(3,pb), getResources().getString(R.string.category_1));
+        adapter.addFragment(new CheeseListFragment().setCategorie(4,pb), getResources().getString(R.string.category_2));
+        adapter.addFragment(new CheeseListFragment().setCategorie(5,pb),  getResources().getString(R.string.category_3));
+        adapter.addFragment(new CheeseListFragment().setCategorie(6,pb),  getResources().getString(R.string.category_4));
+        adapter.addFragment(new CheeseListFragment().setCategorie(7,pb),  getResources().getString(R.string.category_5));
+        adapter.addFragment(new CheeseListFragment().setCategorie(33,pb),  getResources().getString(R.string.category_6));
+        adapter.addFragment(new CheeseListFragment().setCategorie(8,pb),  getResources().getString(R.string.category_7));
+        adapter.addFragment(new CheeseListFragment().setCategorie(9,pb),  getResources().getString(R.string.category_8));
+        adapter.addFragment(new CheeseListFragment().setCategorie(10,pb),  getResources().getString(R.string.category_9));
+        adapter.addFragment(new CheeseListFragment().setCategorie(1,pb),  getResources().getString(R.string.category_10));
         viewPager.setAdapter(adapter);
     }
 

@@ -17,8 +17,23 @@ public class Post implements Serializable {
     private String imageUrl; //full
     private String category;
     private String status; //publish or not
+    private String url;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getTitle() {
         return title;
