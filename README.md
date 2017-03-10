@@ -1,4 +1,4 @@
-![alt text](https://raw.githubusercontent.com/chrisbanes/cheesesquare/master/art/icon.png)
+![alt text](http://korama.net/wp-content/uploads/2016/10/EgmP2N1.png)
 
 Cheesesquare Sample
 ===================================
