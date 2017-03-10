@@ -51,9 +51,10 @@
                     android:layout_alignParentRight="true"
                     android:gravity="right"
                     android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin_max"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
+                   android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:textColor="@color/text_color"/>
             </RelativeLayout>
         </RelativeLayout>

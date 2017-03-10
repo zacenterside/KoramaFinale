@@ -182,8 +182,8 @@ public class CheeseListFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mBoundString = mValues.get(position).getTitle();
             String goodTitle= mValues.get(position).getTitle();
-            if(goodTitle.length()>60){
-                goodTitle = goodTitle.substring(0,60);
+            if(goodTitle.length()>100){
+                goodTitle = goodTitle.substring(0,100);
                 goodTitle += "...";
             }
 
