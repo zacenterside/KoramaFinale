@@ -36,6 +36,7 @@ import com.android.korama.model.Post;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -128,14 +129,15 @@ public class CheeseListFragment extends Fragment {
 
             public final View mView;
             public final ImageView mImageView;
-            public final TextView mTextView;
+            public final TextView mTitle;
+            public final TextView mPeriod;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
                 mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mTextView = (TextView) view.findViewById(android.R.id.text1);
-
+                mTitle = (TextView) view.findViewById(android.R.id.text1);
+                mPeriod = (TextView) view.findViewById(R.id.period);
 
 
 
@@ -143,7 +145,7 @@ public class CheeseListFragment extends Fragment {
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mTextView.getText();
+                return super.toString() + " '" + mTitle.getText();
             }
         }
 
@@ -162,8 +164,10 @@ public class CheeseListFragment extends Fragment {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
             TextView title = (TextView) view.findViewById(android.R.id.text1);
-            Typeface font = Typeface.createFromAsset(parent.getContext().getAssets(), "fonts/BElham.ttf");
+            TextView period = (TextView) view.findViewById(R.id.period);
+            Typeface font = Typeface.createFromAsset(parent.getContext().getAssets(), "fonts/Brushez.ttf");
             title.setTypeface(font);
+            period.setTypeface(font);
             view.setBackgroundResource(mBackground);
             return new ViewHolder(view);
         }
@@ -172,12 +176,62 @@ public class CheeseListFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mBoundString = mValues.get(position).getTitle();
             String goodTitle= mValues.get(position).getTitle();
+
+            //----------title------------------
+            mValues.get(position).getDt();
             if(goodTitle.length()>100){
                 goodTitle = goodTitle.substring(0,100);
                 goodTitle += "...";
             }
+            holder.mTitle.setText(goodTitle);
 
-            holder.mTextView.setText(goodTitle);
+            //----------period------------------
+            String goodPeriod="";
+            Date currentDate = new Date();
+            Date postDate = mValues.get(position).getDt();
+            long diff = currentDate.getTime() - postDate.getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000);
+            int diffInDays = (int) ((currentDate.getTime() - postDate.getTime()) / (1000 * 60 * 60 * 24));
+
+            if (diffInDays >= 1) {
+                if(diffInDays == 1)
+                    goodPeriod= "منذ يوم";
+                if(diffInDays == 2)
+                    goodPeriod= "منذ يومين";
+                if(diffInDays > 2)
+                    goodPeriod= " منذ "+diffInDays+ " أيام ";
+                if(diffInDays > 10)
+                    goodPeriod= " منذ "+diffInDays+ " يوم ";
+            } else if (diffHours >= 1) {
+                if(diffHours == 1 )
+                    goodPeriod = "منذ ساعة";
+                if(diffHours == 2 )
+                    goodPeriod= "منذ ساعتين";
+                if(diffHours > 2 )
+                    goodPeriod=   " منذ "+diffHours+" ساعات ";
+                if(diffHours > 10 )
+                    goodPeriod=   " منذ "+diffHours+" ساعة ";
+
+            } else if (diffMinutes >= 1) {
+                if(diffMinutes == 1)
+                    goodPeriod= "منذ دقيقة";
+                if(diffMinutes == 2)
+                    goodPeriod=  "منذ دقيقتين";
+                if(diffMinutes > 2)
+                    goodPeriod= " منذ "+ diffMinutes +" دقائق ";
+                if(diffHours > 10 )
+                    goodPeriod=   " منذ "+diffHours+" دقيقة ";
+            }else{
+                goodPeriod= "للتو";
+            }
+
+
+
+
+            holder.mPeriod.setText(goodPeriod);
+
             holder.mPost = mValues.get(position);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
