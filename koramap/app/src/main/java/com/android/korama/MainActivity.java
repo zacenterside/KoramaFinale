@@ -1,5 +1,6 @@
 package com.android.korama;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.cat10:
                         viewPager.setCurrentItem(9);
+                        break;
+                    case R.id.about:
+                       startActivity(new Intent(MainActivity.this,About.class));
                         break;
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);

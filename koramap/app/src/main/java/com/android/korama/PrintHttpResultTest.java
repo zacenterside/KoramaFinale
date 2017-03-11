@@ -17,6 +17,8 @@ public class PrintHttpResultTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_http_result_test);
 
+
+
         ProgressBar p = (ProgressBar) findViewById(R.id.pb);
         p.setVisibility(View.INVISIBLE);
 

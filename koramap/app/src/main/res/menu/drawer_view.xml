@@ -69,6 +69,15 @@
 
     </group>
 
+    <item android:title="Sub items">
+        <menu>
+            <item
+                android:icon="@drawable/ic_forum"
+                android:title="about"
+                android:id="@+id/about"/>
+        </menu>
+    </item>
+
 
 
 </menu>
