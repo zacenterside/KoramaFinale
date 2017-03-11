@@ -25,7 +25,7 @@ public class PrintHttpResultTest extends AppCompatActivity {
         new LoadData.GetDataTask(new RecyclerView(this),this,0,5,Util.getListCategorie(5),false,new ProgressBar(this)).execute();
         new LoadData.GetDataTask(new RecyclerView(this),this,0,6,Util.getListCategorie(6),false,new ProgressBar(this)).execute();
         new LoadData.GetDataTask(new RecyclerView(this),this,0,7,Util.getListCategorie(7),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,33,Util.getListCategorie(33),false,new ProgressBar(this)).execute();
+        //new LoadData.GetDataTask(new RecyclerView(this),this,0,33,Util.getListCategorie(33),false,new ProgressBar(this)).execute();
         new LoadData.GetDataTask(new RecyclerView(this),this,0,8,Util.getListCategorie(8),false,new ProgressBar(this)).execute();
         new LoadData.GetDataTask(new RecyclerView(this),this,0,9,Util.getListCategorie(9),false,new ProgressBar(this)).execute();
         new LoadData.GetDataTask(new RecyclerView(this),this,0,1,Util.getListCategorie(1),false,new ProgressBar(this)).execute();
