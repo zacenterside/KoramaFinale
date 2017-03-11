@@ -248,7 +248,7 @@ public class CheeseListFragment extends Fragment {
 
             Picasso.with(holder.mImageView.getContext())
                     .load(mValues.get(position).getImage_url())
-                    .placeholder(R.drawable.article)
+                    .placeholder(R.drawable.a)
                     .error(R.drawable.ic_menu)
                     .into(holder.mImageView);
         }
