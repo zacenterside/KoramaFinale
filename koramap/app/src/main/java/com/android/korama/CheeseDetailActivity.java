@@ -18,7 +18,9 @@ package com.android.korama;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -39,6 +41,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "cheese_name";
     Post post;
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,12 +103,11 @@ public class CheeseDetailActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
-        webView.setInitialScale(300);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setVerticalScrollBarEnabled(false);
 
-        webView.loadDataWithBaseURL("http://vimeo.com",  "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
-
+        //webView.loadDataWithBaseURL("http://vimeo.com",  "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
+        displayHtmlText(post.getContent(),"",webView);
         loadBackdrop();
     }
 
@@ -131,4 +133,30 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public void displayHtmlText(String htmlContent, String message,
+                                WebView webView){
+
+        WebSettings settings = webView.getSettings();
+        settings.setMinimumFontSize(18);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+
+        webView.setWebChromeClient(new WebChromeClient());
+        String changeFontHtml = changedHeaderHtml(htmlContent);
+        webView.loadDataWithBaseURL("http://vimeo.com", changeFontHtml , "text/html", "UTF-8", null);
+    }
+
+    public String changedHeaderHtml(String htmlText) {
+
+        String head = "<html dir=\"rtl\" lang=\"\"><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\" /></head>";
+
+        String closedTag = "</body></html>";
+        String changeFontHtml = head + htmlText + closedTag;
+        return changeFontHtml;
+    }
 }
+
