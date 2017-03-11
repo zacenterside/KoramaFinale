@@ -52,6 +52,18 @@
                 android:background="@drawable/black_transparent">
 
                <TextView
+                   android:id="@+id/period"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:gravity="right"
+                   android:text="Small Text"
+                   android:textAppearance="?android:attr/textAppearanceSmall"
+                   android:textColor="@color/text_color"
+                   android:layout_above="@android:id/text1"
+                   android:layout_alignRight="@android:id/text1"
+                   android:layout_alignEnd="@android:id/text1"
+                   android:layout_marginBottom="@dimen/activity_horizontal_margin_med" />
+               <TextView
                     android:id="@android:id/text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
