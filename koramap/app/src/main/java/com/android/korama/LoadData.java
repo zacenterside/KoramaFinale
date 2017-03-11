@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Dell Latitude E7470 on 10/03/2017.
@@ -42,9 +44,10 @@ public class LoadData {
         int loadedPosts;
         int categorie;
         boolean isSpalsh;
-        ProgressBar pb;
+        View pb;
+        List<Post> temp = new LinkedList<>();
 
-        public GetDataTask(RecyclerView rv, Context context,int l,int cat,LinkedList<Post> posts,boolean isSplash,ProgressBar pb) {
+        public GetDataTask(RecyclerView rv, Context context,int l,int cat,LinkedList<Post> posts,boolean isSplash,View pb) {
             mRecyclerView=rv;
             c=context;
             loadedPosts=l;
@@ -97,7 +100,7 @@ public class LoadData {
                 System.out.println("llllebght"+articles.length());
                 String goodTitle;
                 //parsing json to model (Post)
-                for(int i=loadedPosts ; i<articles.length();i++){
+                for(int i=0 ; i<articles.length();i++){
                     JSONObject article = new JSONObject(articles.get(i).toString());
                     Post p =new Post();
                     if (Build.VERSION.SDK_INT >= 24) {
@@ -132,8 +135,10 @@ public class LoadData {
                     Log.d("RQ","image full url : "+image_full.getString("url"));
 
                     System.out.println("rrrrrrrrrrrr   "+ article.get("categories").toString() );
-
-                    Util.getListCategorie(categorie).add(p) ;}
+                    if(i < Util.getListCategorie(categorie).size())
+                        Util.getListCategorie(categorie).set(i,p) ;
+                    else
+                        Util.getListCategorie(categorie).add(p) ;}
                     System.out.println("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
                 }
@@ -152,12 +157,17 @@ public class LoadData {
         @Override
         protected void onPostExecute(String aVoid) {
             super.onPostExecute(aVoid);
-            pb.setVisibility(View.INVISIBLE);
             if(isSpalsh){
                 c.startActivity(new Intent(c,MainActivity.class));
                 ((Activity)c).finish();}
             if(mRecyclerView.getAdapter()!=null){
                 mRecyclerView.getAdapter().notifyDataSetChanged();}
+
+
+            if(pb instanceof ProgressBar)
+                pb.setVisibility(View.INVISIBLE);
+            if(pb instanceof SwipeRefreshLayout)
+                ((SwipeRefreshLayout) pb).setRefreshing(false);
 
         }
     }

@@ -22,6 +22,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -52,6 +53,8 @@ public class CheeseListFragment extends Fragment {
 
     int categorie;
 
+    SwipeRefreshLayout srl;
+
 
     public CheeseListFragment setCategorie(int i,ProgressBar pb){
         mPosts = Util.getListCategorie(i);
@@ -64,13 +67,27 @@ public class CheeseListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rv = (RecyclerView) inflater.inflate(
+        View v =  inflater.inflate(
                 R.layout.fragment_cheese_list, container, false);
 
+        rv = (RecyclerView) v.findViewById(R.id.recyclerview);
+        srl = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
+        srl.setColorSchemeResources(R.color.accent);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
+                        loadedPosts = 0;
+                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false,srl).execute();
+                        loadedPosts+=10;
+
+            }
+        });
         setupRecyclerView(rv);
-        return rv;
+        return v;
     }
+
+
 
 
     private void setupRecyclerView(final RecyclerView recyclerView) {
