@@ -180,6 +180,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         webView.onResume();
+        
     }
 }
 
