@@ -59,17 +59,18 @@ public class CheeseDetailActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         TextView title = (TextView) findViewById(R.id.title_post);
+        //TextView content = (TextView) findViewById(R.id.content_post);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Brushez.ttf");
         title.setTypeface(font);
+        //content.setTypeface(font);
         font = Typeface.createFromAsset(getAssets(), "fonts/Rawy-Regular.otf");
         collapsingToolbar.setCollapsedTitleTypeface(font);
         collapsingToolbar.setExpandedTitleTypeface(font);
         toolbar.setPadding(toolbar.getPaddingLeft(),toolbar.getPaddingTop(),toolbar.getPaddingRight()+20,toolbar.getTitleMarginBottom());
         title.setText(post.getTitle());
 
-        TextView content = (TextView) findViewById(R.id.content_post);
-        //content.setText(post.getContent());
+
          webView = (WebView) findViewById(R.id.webContent);
         WebSettings w = webView.getSettings();
         w.setPluginState(WebSettings.PluginState.ON);
