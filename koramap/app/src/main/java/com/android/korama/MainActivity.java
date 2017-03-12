@@ -1,6 +1,8 @@
 package com.android.korama;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,22 @@ public class MainActivity extends AppCompatActivity {
         pb= (ProgressBar) findViewById(R.id.pb);
         pb.setVisibility(View.INVISIBLE);
 
+        TextView tv = new TextView(getApplicationContext());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        tv.setLayoutParams(lp);
+        tv.setText("الكرة المغربية");
+        tv.setTextSize(20);
+        tv.setTextColor(Color.parseColor("#FFFFFF"));
+        Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Rawy-Regular.otf");
+
+        tv.setTypeface(tf);
+
         final ActionBar ab = getSupportActionBar();
+
+        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        ab.setCustomView(tv);
+
+
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -77,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         android.app.ActionBar actionBar = getActionBar();
 
         actionBar.setTitle(s);*/
+
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

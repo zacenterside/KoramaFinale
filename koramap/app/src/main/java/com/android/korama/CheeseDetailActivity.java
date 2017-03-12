@@ -21,6 +21,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -55,11 +56,16 @@ public class CheeseDetailActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         TextView title = (TextView) findViewById(R.id.title_post);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Brushez.ttf");
         title.setTypeface(font);
+        font = Typeface.createFromAsset(getAssets(), "fonts/Rawy-Regular.otf");
+        collapsingToolbar.setCollapsedTitleTypeface(font);
+        collapsingToolbar.setExpandedTitleTypeface(font);
+        toolbar.setPadding(toolbar.getPaddingLeft(),toolbar.getPaddingTop(),toolbar.getPaddingRight()+20,toolbar.getTitleMarginBottom());
         title.setText(post.getTitle());
 
         TextView content = (TextView) findViewById(R.id.content_post);
@@ -128,7 +134,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        //getMenuInflater().inflate(R.menu.sample_actions, menu);
         return true;
     }
 
