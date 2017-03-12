@@ -72,7 +72,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
         findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                share(post.getUrl());
+                share(post);
             }
         });
 
@@ -133,12 +133,12 @@ public class CheeseDetailActivity extends AppCompatActivity {
     }
 
 
-    public void share(String s){
+    public void share(Post s){
 
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, s);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, post.getTitle());
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, s.getUrl());
         startActivity(Intent.createChooser(sharingIntent,"bitch" ));
 
 
@@ -180,7 +180,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         webView.onResume();
-        
+
     }
 }
 
