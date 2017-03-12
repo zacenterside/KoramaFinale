@@ -77,9 +77,9 @@ public class CheeseListFragment extends Fragment {
             @Override
             public void onRefresh() {
 
-                        loadedPosts = 0;
-                        new LoadData.GetDataTask(rv,getContext(),loadedPosts,categorie,mPosts,false,srl).execute();
-                        loadedPosts+=10;
+
+                        new LoadData.GetDataTask(rv,getContext(),0,categorie,mPosts,false,srl).execute();
+
 
             }
         });

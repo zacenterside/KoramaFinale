@@ -16,9 +16,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -132,13 +129,13 @@ public class MainActivity extends AppCompatActivity {
     //-----start : if u delete this drop-down menu will not work ??? --to check later---
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+       // getMenuInflater().inflate(R.menu.sample_actions, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        switch (AppCompatDelegate.getDefaultNightMode()) {
+      /*  switch (AppCompatDelegate.getDefaultNightMode()) {
             case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
                 menu.findItem(R.id.menu_night_mode_system).setChecked(true);
                 break;
@@ -151,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             case AppCompatDelegate.MODE_NIGHT_NO:
                 menu.findItem(R.id.menu_night_mode_day).setChecked(true);
                 break;
-        }
+        }*/
         return true;
     }
 

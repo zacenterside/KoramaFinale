@@ -139,7 +139,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, post.getTitle());
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, s.getUrl());
-        startActivity(Intent.createChooser(sharingIntent,"bitch" ));
+        startActivity(Intent.createChooser(sharingIntent,"" ));
 
 
     }
