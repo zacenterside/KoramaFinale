@@ -24,6 +24,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -83,10 +84,18 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
         webView.getSettings().setJavaScriptEnabled(true);
 
+        /*if (Build.VERSION.SDK_INT >= 14) { //this is for zoom not fon size :(
+            webView.getSettings().setTextZoom((int)(webView.getSettings().getTextZoom() * 1.1));
+        }
+        else{
+            webView.getSettings().setTextSize(WebSettings.TextSize.LARGER);
+        }*/
+        //webView.getSettings().setDefaultFontSize(webView.getSettings().getDefaultFontSize()+10);
 
         webView.setWebChromeClient(new WebChromeClient());
         //webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
         webView.loadDataWithBaseURL(post.getContent(), "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
+        Log.d("COL","post content : "+post.getContent());
         webView.getSettings().setUseWideViewPort(false);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
@@ -152,7 +161,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
     public String changedHeaderHtml(String htmlText) {
 
-        String head = "<html dir=\"rtl\" lang=\"\"><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\" /></head>";
+        String head = "<html dir=\"rtl\" lang=\"\"><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\" /> <style type=\"text/css\"> .post_text{font-size: 220%;width:220%;}</style></head>";
 
         String closedTag = "</body></html>";
         String changeFontHtml = head + htmlText + closedTag;
