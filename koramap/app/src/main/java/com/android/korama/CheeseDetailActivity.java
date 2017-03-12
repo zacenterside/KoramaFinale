@@ -42,6 +42,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "cheese_name";
     Post post;
+    WebView webView;
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
         TextView content = (TextView) findViewById(R.id.content_post);
         //content.setText(post.getContent());
-        WebView webView = (WebView) findViewById(R.id.webContent);
+         webView = (WebView) findViewById(R.id.webContent);
         WebSettings w = webView.getSettings();
         w.setPluginState(WebSettings.PluginState.ON);
         w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -166,6 +167,19 @@ public class CheeseDetailActivity extends AppCompatActivity {
         String closedTag = "</body></html>";
         String changeFontHtml = head + htmlText + closedTag;
         return changeFontHtml;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public void onPause() {
+        super.onPause();
+        webView.onPause();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    public void onResume() {
+        super.onResume();
+        webView.onResume();
     }
 }
 

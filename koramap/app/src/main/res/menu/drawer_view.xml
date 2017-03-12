@@ -70,5 +70,13 @@
     </group>
 
 
+            <item
+                android:icon="@drawable/ic_forum"
+                android:title="about"
+                android:id="@+id/about"/>
+
+
+
+
 
 </menu>
