@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -21,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,20 +50,25 @@ public class MainActivity extends AppCompatActivity {
         pb= (ProgressBar) findViewById(R.id.pb);
         pb.setVisibility(View.INVISIBLE);
 
-        TextView tv = new TextView(getApplicationContext());
+        /*TextView tv = new TextView(getApplicationContext());
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(lp);
         tv.setText("الكرة المغربية");
         tv.setTextSize(20);
         tv.setTextColor(Color.parseColor("#FFFFFF"));
         Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Rawy-Regular.otf");
+        tv.setTypeface(tf);*/
 
-        tv.setTypeface(tf);
+        ImageView iv = new ImageView(getApplicationContext());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        iv.setLayoutParams(lp);
+        iv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_logo));
+        
 
         final ActionBar ab = getSupportActionBar();
 
         ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ab.setCustomView(tv);
+        ab.setCustomView(iv);
 
 
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -211,14 +218,14 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setHorizontalScrollBarEnabled(true);
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CheeseListFragment().setCategorie(3,pb), getResources().getString(R.string.category_1));
+        adapter.addFragment(new CheeseListFragment().setCategorie(7,pb),  getResources().getString(R.string.category_5));
+        adapter.addFragment(new CheeseListFragment().setCategorie(10,pb),  getResources().getString(R.string.category_9));
         adapter.addFragment(new CheeseListFragment().setCategorie(4,pb), getResources().getString(R.string.category_2));
         adapter.addFragment(new CheeseListFragment().setCategorie(5,pb),  getResources().getString(R.string.category_3));
         adapter.addFragment(new CheeseListFragment().setCategorie(6,pb),  getResources().getString(R.string.category_4));
-        adapter.addFragment(new CheeseListFragment().setCategorie(7,pb),  getResources().getString(R.string.category_5));
         //adapter.addFragment(new CheeseListFragment().setCategorie(33,pb),  getResources().getString(R.string.category_6));
         adapter.addFragment(new CheeseListFragment().setCategorie(8,pb),  getResources().getString(R.string.category_7));
         adapter.addFragment(new CheeseListFragment().setCategorie(9,pb),  getResources().getString(R.string.category_8));
-        adapter.addFragment(new CheeseListFragment().setCategorie(10,pb),  getResources().getString(R.string.category_9));
         adapter.addFragment(new CheeseListFragment().setCategorie(1,pb),  getResources().getString(R.string.category_10));
         viewPager.setAdapter(adapter);
     }

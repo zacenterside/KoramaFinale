@@ -19,28 +19,33 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/cat1"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat1"
             android:title="@string/category_1" />
 
         <item
+            android:id="@+id/cat5"
+            android:icon="@drawable/ic_cat2"
+            android:title="@string/category_5" />
+
+        <item
+            android:id="@+id/cat9"
+            android:icon="@drawable/ic_cat3"
+            android:title="@string/category_9" />
+
+        <item
             android:id="@+id/cat2"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat4"
             android:title="@string/category_2" />
 
         <item
             android:id="@+id/cat3"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat5"
             android:title="@string/category_3" />
 
         <item
             android:id="@+id/cat4"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat6"
             android:title="@string/category_4" />
-
-        <item
-            android:id="@+id/cat5"
-            android:icon="@drawable/ic_dashboard"
-            android:title="@string/category_5" />
 
         <!--<item
             android:id="@+id/cat6"
@@ -49,20 +54,17 @@
 
         <item
             android:id="@+id/cat7"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat7"
             android:title="@string/category_7" />
 
         <item
             android:id="@+id/cat8"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat8"
             android:title="@string/category_8" />
-        <item
-            android:id="@+id/cat9"
-            android:icon="@drawable/ic_dashboard"
-            android:title="@string/category_9" />
+
         <item
             android:id="@+id/cat10"
-            android:icon="@drawable/ic_dashboard"
+            android:icon="@drawable/ic_cat9"
             android:title="@string/category_10" />
 
 

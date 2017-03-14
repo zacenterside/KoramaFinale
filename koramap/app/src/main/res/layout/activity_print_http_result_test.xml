@@ -6,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.android.korama.PrintHttpResultTest"
-    android:gravity="center_vertical"
-
-    android:background="#fff">
+    android:fitsSystemWindows="true">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logomin"
-        android:layout_margin="5dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/splash"
+        android:scaleType="centerCrop"
+        android:fitsSystemWindows="true" />
 
 
 
