@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -190,7 +193,7 @@ public class CheeseListFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mBoundString = mValues.get(position).getTitle();
             String goodTitle= mValues.get(position).getTitle();
 
@@ -262,12 +265,41 @@ public class CheeseListFragment extends Fragment {
                     context.startActivity(intent);
                 }
             });
+            Picasso.with(holder.mImageView.getContext())
+                    .load(mValues.get(position).getImage_url())
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(holder.mImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            //Try again online if cache failed
+                            Picasso.with(holder.mImageView.getContext())
+                                    .load(mValues.get(position).getImage_url())
+                                    .error(R.drawable.a)
+                                    .into(holder.mImageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            Log.v("Picasso","Could not fetch image");
+                                        }
+                                    });
+                        }
+                    });
 
             Picasso.with(holder.mImageView.getContext())
                     .load(mValues.get(position).getImage_url())
                     .placeholder(R.drawable.a)
                     .error(R.drawable.ic_menu)
                     .into(holder.mImageView);
+
         }
 
         @Override
