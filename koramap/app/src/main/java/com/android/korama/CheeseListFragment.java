@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.android.korama.model.Post;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.LruCache;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -265,7 +266,10 @@ public class CheeseListFragment extends Fragment {
                     context.startActivity(intent);
                 }
             });
-            Picasso.with(holder.mImageView.getContext())
+            final Picasso p = new Picasso.Builder(holder.mImageView.getContext())
+                    .memoryCache(new LruCache(240000))
+                    .build();
+                p.with(holder.mImageView.getContext())
                     .load(mValues.get(position).getImage_url())
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(holder.mImageView, new Callback() {
@@ -277,7 +281,7 @@ public class CheeseListFragment extends Fragment {
                         @Override
                         public void onError() {
                             //Try again online if cache failed
-                            Picasso.with(holder.mImageView.getContext())
+                            p.with(holder.mImageView.getContext())
                                     .load(mValues.get(position).getImage_url())
                                     .error(R.drawable.a)
                                     .into(holder.mImageView, new Callback() {
@@ -293,12 +297,6 @@ public class CheeseListFragment extends Fragment {
                                     });
                         }
                     });
-
-            Picasso.with(holder.mImageView.getContext())
-                    .load(mValues.get(position).getImage_url())
-                    .placeholder(R.drawable.a)
-                    .error(R.drawable.ic_menu)
-                    .into(holder.mImageView);
 
         }
 
