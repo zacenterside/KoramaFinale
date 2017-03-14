@@ -1,11 +1,17 @@
 package com.android.korama;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.android.korama.model.load;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 
 public class PrintHttpResultTest extends AppCompatActivity {
@@ -20,18 +26,41 @@ public class PrintHttpResultTest extends AppCompatActivity {
 
 
         ProgressBar p = (ProgressBar) findViewById(R.id.pb);
-        p.setVisibility(View.INVISIBLE);
 
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,3,Util.getListCategorie(3),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,4,Util.getListCategorie(4),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,5,Util.getListCategorie(5),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,6,Util.getListCategorie(6),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,7,Util.getListCategorie(7),false,new ProgressBar(this)).execute();
-        //new LoadData.GetDataTask(new RecyclerView(this),this,0,33,Util.getListCategorie(33),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,8,Util.getListCategorie(8),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,9,Util.getListCategorie(9),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,1,Util.getListCategorie(1),false,new ProgressBar(this)).execute();
-        new LoadData.GetDataTask(new RecyclerView(this),this,0,10,Util.getListCategorie(10),true,p).execute();
+
+
+        Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
+
+
+        vals.flatMap(new Func1<load, Observable<?>>() {
+            @Override
+            public Observable<?> call(load getDataTask) {
+                return Observable.just(getDataTask).subscribeOn(Schedulers.newThread())
+                        .map(new Func1<load, Object>() {
+                            @Override
+                            public Object call(load getDataTask) {
+                                return getDataTask.load();
+                            }
+                        });
+            }
+        }).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+            startActivity(new Intent(PrintHttpResultTest.this,MainActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                System.out.println("Received " + (o) +
+                        " on thread " + Thread.currentThread().getName());
+            }});
+
 
 
 
