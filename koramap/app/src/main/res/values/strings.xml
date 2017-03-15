@@ -41,5 +41,9 @@
   <string name="category_9">فيديو</string>
   <string name="category_10">أهم الأخبار</string>
   <string name="about">حول تطبيق</string>
+  <string name="rateUp"> إذااستمتعت باستخدام التطبيق الرجاء تقييمه . شكرا للدعم</string>
+  <string name="rateItNow"> قيمه الآن</string>
+  <string name="noRate">لا أريد</string>
+  <string name="rateLater">لاحقا</string>
 
 </resources>

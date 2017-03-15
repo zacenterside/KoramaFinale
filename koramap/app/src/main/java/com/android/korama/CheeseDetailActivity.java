@@ -189,5 +189,15 @@ public class CheeseDetailActivity extends AppCompatActivity {
         webView.onResume();
 
     }
+    @Override
+    public void onBackPressed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
 }
 

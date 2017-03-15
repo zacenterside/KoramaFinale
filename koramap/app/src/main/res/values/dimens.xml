@@ -33,4 +33,6 @@
     <dimen name="activity_horizontal_margin_med">5dp</dimen>
     <dimen name="activity_vertical_margin_med">5dp</dimen>
 
+    <dimen name="title_size_xLarge">25dp</dimen>
+
 </resources>

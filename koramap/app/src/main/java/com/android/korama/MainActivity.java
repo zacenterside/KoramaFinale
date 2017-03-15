@@ -1,6 +1,11 @@
 package com.android.korama;
 
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +19,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,37 +42,37 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     ProgressBar pb;
-
+    boolean rateOrNot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        rateOrNot= true;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         pb= (ProgressBar) findViewById(R.id.pb);
         pb.setVisibility(View.INVISIBLE);
 
-        /*TextView tv = new TextView(getApplicationContext());
+        TextView tv = new TextView(getApplicationContext());
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(lp);
         tv.setText("الكرة المغربية");
         tv.setTextSize(20);
         tv.setTextColor(Color.parseColor("#FFFFFF"));
         Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Rawy-Regular.otf");
-        tv.setTypeface(tf);*/
-
+        tv.setTypeface(tf);
+        /*
         ImageView iv = new ImageView(getApplicationContext());
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         iv.setLayoutParams(lp);
         iv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_logo));
         
-
+        */
         final ActionBar ab = getSupportActionBar();
 
         ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ab.setCustomView(iv);
+        ab.setCustomView(tv);
 
 
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -239,6 +246,71 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+    public void onBackPressed(){
+        if(rateOrNot)
+            showRateAppDialog();
+
+    }
+
+    public void showRateAppDialog(){
+
+        new AlertDialog.Builder(this)
+                .setTitle("قيم Korama")
+                .setMessage(getResources().getString(R.string.rateUp))
+                .setPositiveButton(getResources().getString(R.string.rateItNow), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        rateApp();
+                    }
+                })
+                /*.setNegativeButton(getResources().getString(R.string.noRate), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        rateOrNot= false;
+                    }
+                })*/
+                .setNeutralButton(getResources().getString(R.string.rateLater), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        finish();
+                    }
+                })
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
+
+    public void rateApp()
+    {
+        try
+        {
+            Intent rateIntent = rateIntentForUrl("market://details");
+            startActivity(rateIntent);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            Intent rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
+            startActivity(rateIntent);
+        }
+    }
+
+    private Intent rateIntentForUrl(String url)
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getPackageName())));
+        int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+        if (Build.VERSION.SDK_INT >= 21)
+        {
+            flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+        }
+        else
+        {
+            //noinspection deprecation
+            flags |= Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
+        }
+        intent.addFlags(flags);
+        return intent;
+    }
+
 
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();

@@ -200,8 +200,8 @@ public class CheeseListFragment extends Fragment {
 
             //----------title------------------
             mValues.get(position).getDt();
-            if(goodTitle.length()>100){
-                goodTitle = goodTitle.substring(0,100);
+            if(goodTitle.length()>90){ //100
+                goodTitle = goodTitle.substring(0,90);
                 goodTitle += "...";
             }
             holder.mTitle.setText(goodTitle);
