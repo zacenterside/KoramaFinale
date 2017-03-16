@@ -70,7 +70,10 @@
             android:orientation="vertical"
             android:paddingTop="24dp">
 
-
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin">
 
                 <LinearLayout
                     style="@style/Widget.CardContent"
@@ -98,7 +101,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
                 </LinearLayout>
-
+            </android.support.v7.widget.CardView>
 
             <!--
             <android.support.v7.widget.CardView
