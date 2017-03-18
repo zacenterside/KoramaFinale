@@ -31,8 +31,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     ProgressBar pb;
     boolean rateOrNot;
+    InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +57,25 @@ public class MainActivity extends AppCompatActivity {
         rateOrNot= true;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+
+        //---------banner ad--------------
+        MobileAds.initialize(getApplicationContext(), getResources().getString(R.string.admob_id));
         AdView mAdView = (AdView) findViewById(R.id.banner_AdView);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // for test
+                // Check the LogCat to get your test device ID
+                .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
+                .build();
+
         mAdView.loadAd(adRequest);
+
+
+        //----------Interstitial ad---------
+        //showInterstitial();
+
+
         pb= (ProgressBar) findViewById(R.id.pb);
         pb.setVisibility(View.INVISIBLE);
 
@@ -317,6 +334,22 @@ public class MainActivity extends AppCompatActivity {
         }
         intent.addFlags(flags);
         return intent;
+    }
+    private void showInterstitial() {
+        //--------Interstitial ad------------
+        mInterstitialAd = new InterstitialAd(this);
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.ad_id_interstitial));
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                mInterstitialAd.show();
+            }
+        });
     }
 
 

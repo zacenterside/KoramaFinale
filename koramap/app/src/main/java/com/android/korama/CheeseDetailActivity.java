@@ -16,17 +16,20 @@
 
 package com.android.korama;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -47,18 +50,25 @@ public class CheeseDetailActivity extends AppCompatActivity {
     public static final String EXTRA_NAME = "cheese_name";
     Post post;
     WebView webView;
+    Activity myActivity;
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+        myActivity = this;
+        //---------banner ad--------------
+        MobileAds.initialize(getApplicationContext(), getResources().getString(R.string.admob_id));//just to speed up ad fetch
         AdView mAdView = (AdView) findViewById(R.id.banner_AdView);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
+                // Check the LogCat to get your test device ID
+                .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
+                .build();
         mAdView.loadAd(adRequest);
+        //--------------------------------
 
         Intent intent = getIntent();
         //final String cheeseName = intent.getStringExtra(EXTRA_NAME);
@@ -66,7 +76,9 @@ public class CheeseDetailActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
 
         TextView title = (TextView) findViewById(R.id.title_post);
         //TextView content = (TextView) findViewById(R.id.content_post);
@@ -77,6 +89,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
         font = Typeface.createFromAsset(getAssets(), "fonts/Rawy-Regular.otf");
         collapsingToolbar.setCollapsedTitleTypeface(font);
         collapsingToolbar.setExpandedTitleTypeface(font);
+
         toolbar.setPadding(toolbar.getPaddingLeft(),toolbar.getPaddingTop(),toolbar.getPaddingRight()+20,toolbar.getTitleMarginBottom());
         title.setText(post.getTitle());
 
@@ -209,5 +222,19 @@ public class CheeseDetailActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                onBackPressed();
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
 
