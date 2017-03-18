@@ -45,5 +45,8 @@
   <string name="rateItNow"> قيمه الآن</string>
   <string name="noRate">لا أريد</string>
   <string name="rateLater">لاحقا</string>
+  <string name="ad_id_interstitial">ca-app-pub-8758438984930676/5242033345</string>
+  <string name="ad_id_banner">ca-app-pub-8758438984930676/3765300142</string>
+  <string name="ad_id_native">ca-app-pub-8758438984930676/8195499748</string>
 
 </resources>

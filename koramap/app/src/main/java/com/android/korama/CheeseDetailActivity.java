@@ -37,6 +37,9 @@ import android.widget.TextView;
 
 import com.android.korama.model.Post;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 
 public class CheeseDetailActivity extends AppCompatActivity {
@@ -49,6 +52,13 @@ public class CheeseDetailActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+        AdView mAdView = (AdView) findViewById(R.id.banner_AdView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         Intent intent = getIntent();
         //final String cheeseName = intent.getStringExtra(EXTRA_NAME);

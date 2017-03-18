@@ -31,6 +31,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
         rateOrNot= true;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+        AdView mAdView = (AdView) findViewById(R.id.banner_AdView);
 
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         pb= (ProgressBar) findViewById(R.id.pb);
         pb.setVisibility(View.INVISIBLE);
 
