@@ -16,51 +16,40 @@
 
 package com.android.korama;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.util.LogWriter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.android.korama.model.Post;
 import com.bumptech.glide.Glide;
-
-import java.util.logging.Logger;
 
 
 public class CheeseDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "cheese_name";
     Post post;
-    private VideoEnabledWebView webView;
-    private VideoEnabledWebChromeClient webChromeClient;
-    Activity myActivity;
+    WebView webView;
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        myActivity = this;
+
         Intent intent = getIntent();
         //final String cheeseName = intent.getStringExtra(EXTRA_NAME);
         post = (Post) getIntent().getSerializableExtra("Post");
@@ -82,7 +71,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
         title.setText(post.getTitle());
 
 
-        webView = (VideoEnabledWebView) findViewById(R.id.webView);
+         webView = (WebView) findViewById(R.id.webContent);
         WebSettings w = webView.getSettings();
         w.setPluginState(WebSettings.PluginState.ON);
         w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -110,51 +99,8 @@ public class CheeseDetailActivity extends AppCompatActivity {
             webView.getSettings().setTextSize(WebSettings.TextSize.LARGER);
         }*/
         //webView.getSettings().setDefaultFontSize(webView.getSettings().getDefaultFontSize()+10);
-        View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
-        ViewGroup videoLayout = (ViewGroup) findViewById(R.id.videoLayout); // Your own view, read class comments
-        View loadingView = getLayoutInflater().inflate(R.layout.view_loading_video, null); // Your own view, read class comments
 
-        webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
-        {
-            // Subscribe to standard events, such as onProgressChanged()...
-            @Override
-            public void onProgressChanged(WebView view, int progress)
-            {
-                // Your code...
-            }
-        };
-        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback()
-        {
-            @Override
-            public void toggledFullscreen(boolean fullscreen)
-            {
-                // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
-                if (fullscreen)
-                {
-                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
-                    attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                    attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                    getWindow().setAttributes(attrs);
-                    if (android.os.Build.VERSION.SDK_INT >= 14)
-                    {
-                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-                    }
-                }
-                else
-                {
-                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
-                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                    getWindow().setAttributes(attrs);
-                    if (android.os.Build.VERSION.SDK_INT >= 14)
-                    {
-                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                    }
-                }
-
-            }
-        });
-        webView.setWebChromeClient(webChromeClient);
+        webView.setWebChromeClient(new WebChromeClient());
         //webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
         webView.loadDataWithBaseURL(post.getContent(), "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
         Log.d("COL","post content : "+post.getContent());
@@ -178,8 +124,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
         webView.setVerticalScrollBarEnabled(false);
 
         //webView.loadDataWithBaseURL("http://vimeo.com",  "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
-        //displayHtmlText(post.getContent(),"",webView);
-        
+        displayHtmlText(post.getContent(),"",webView);
         loadBackdrop();
     }
 
@@ -253,24 +198,6 @@ public class CheeseDetailActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
         }
-
-        // Notify the VideoEnabledWebChromeClient, and handle it ourselves if it doesn't handle it
-        if (!webChromeClient.onBackPressed())
-        {
-            if (webView.canGoBack())
-            {
-                webView.goBack();
-            }
-            else
-            {
-                // Close app (presumably)
-                super.onBackPressed();
-            }
-        }
     }
-
-
-
-
 }
 
