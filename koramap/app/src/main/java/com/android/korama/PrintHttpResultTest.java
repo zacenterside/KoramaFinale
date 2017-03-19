@@ -1,8 +1,12 @@
 package com.android.korama;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -12,6 +16,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+
+import static com.android.korama.R.color.primary_dark;
 
 
 public class PrintHttpResultTest extends AppCompatActivity {
@@ -26,6 +32,12 @@ public class PrintHttpResultTest extends AppCompatActivity {
 
 
         ProgressBar p = (ProgressBar) findViewById(R.id.pb);
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary_dark));
+        }
 
 
 

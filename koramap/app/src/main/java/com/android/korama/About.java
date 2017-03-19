@@ -21,8 +21,8 @@ public class About extends AppCompatActivity {
                 .addFacebook("korama")
                 .addTwitter("koramafan")
                 .addYoutube("korama1")
-                .addEmail("redqueenix@gmail.com","Contactez Senpaii Team")
-                .addGroup("Developed by Senpaii Team")
+                //.addEmail("redqueenix@gmail.com","Contactez Senpaii Team")
+                //.addGroup("Developed by Senpaii Team")
                 .setDescription("للتواصل أو الإعلان لدينا")
                 .create();
         setContentView(aboutPage);

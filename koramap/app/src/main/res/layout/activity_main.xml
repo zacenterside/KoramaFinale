@@ -26,6 +26,21 @@
 
     <include layout="@layout/include_list_viewpager"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:ads="http://schemas.android.com/apk/res-auto">
+        <!-- view for AdMob Banner Ad -->
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/banner_AdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/ad_id_banner">
+        </com.google.android.gms.ads.AdView>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -36,20 +51,4 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view"/>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:ads="http://schemas.android.com/apk/res-auto">
-            <!-- view for AdMob Banner Ad -->
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/banner_AdView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/ad_id_banner">
-            </com.google.android.gms.ads.AdView>
-    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
