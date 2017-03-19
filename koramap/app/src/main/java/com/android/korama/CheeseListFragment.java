@@ -35,6 +35,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.NetworkPolicy;
@@ -143,6 +147,9 @@ public class CheeseListFragment extends Fragment {
         private final TypedValue mTypedValue = new TypedValue();
         private int mBackground;
         private List<Post> mValues;
+        private InterstitialAd mInterstitialAd;
+        private static int countInterstitialAd = 0; //(static)for all fragment InterstitialAd after 3 post pressed
+        private int countNativeAd = 0;
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public String mBoundString;
@@ -159,6 +166,7 @@ public class CheeseListFragment extends Fragment {
                 mImageView = (ImageView) view.findViewById(R.id.avatar);
                 mTitle = (TextView) view.findViewById(android.R.id.text1);
                 mPeriod = (TextView) view.findViewById(R.id.period);
+
 
 
 
@@ -187,9 +195,25 @@ public class CheeseListFragment extends Fragment {
             TextView title = (TextView) view.findViewById(android.R.id.text1);
             TextView period = (TextView) view.findViewById(R.id.period);
             Typeface font = Typeface.createFromAsset(parent.getContext().getAssets(), "fonts/Brushez.ttf");
+
             title.setTypeface(font);
             period.setTypeface(font);
             view.setBackgroundResource(mBackground);
+            countNativeAd++;
+            if(countNativeAd%2==0) {
+                //---------------Native ad-----------------
+
+                NativeExpressAdView adView = (NativeExpressAdView) view.findViewById(R.id.native_AdView);
+                adView.setVisibility(View.VISIBLE);
+
+                AdRequest request = new AdRequest.Builder()
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
+                        // Check the LogCat to get your test device ID
+                        .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
+                        .build();
+                adView.loadAd(request);
+                //----------------------------------------
+            }
             return new ViewHolder(view);
         }
 
@@ -261,8 +285,19 @@ public class CheeseListFragment extends Fragment {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, CheeseDetailActivity.class);
                     //intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
-                    intent.putExtra("Post",holder.mPost);
+                    intent.putExtra("Post", holder.mPost);
+                    //----------Interstitial ad--------- (show ad at 0 and after 3 post clicks)
+                    Log.v("RQ","countInterstitialAd "+countInterstitialAd);
+                    if(countInterstitialAd == 3)
+                        countInterstitialAd = 0;
 
+                    if (countInterstitialAd == 0) {
+
+                        showInterstitial(v.getContext());
+                    }
+                    countInterstitialAd++;
+
+                    //-----------------------------
                     context.startActivity(intent);
                 }
             });
@@ -303,6 +338,28 @@ public class CheeseListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mValues.size();
+        }
+
+        private void showInterstitial(Context context) {
+            //--------Interstitial ad------------
+            mInterstitialAd = new InterstitialAd(context);
+            // set the ad unit ID
+            mInterstitialAd.setAdUnitId(context.getString(R.string.ad_id_interstitial));
+            //AdRequest adRequest = new AdRequest.Builder().build();
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // for test
+                    // Check the LogCat to get your test device ID
+                    .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
+                    .build();
+
+            // Load ads into Interstitial Ads
+            mInterstitialAd.loadAd(adRequest);
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                public void onAdLoaded() {
+                    mInterstitialAd.show();
+                }
+            });
         }
     }
 
