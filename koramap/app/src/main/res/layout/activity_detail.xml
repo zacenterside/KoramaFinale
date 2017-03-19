@@ -180,6 +180,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:id="@+id/share"
-        app:backgroundTint="#fff"/>
+        app:backgroundTint="#0058A0"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
