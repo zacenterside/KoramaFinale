@@ -38,6 +38,7 @@ import com.android.korama.model.Post;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.NetworkPolicy;
@@ -147,7 +148,8 @@ public class CheeseListFragment extends Fragment {
         private int mBackground;
         private List<Post> mValues;
         private InterstitialAd mInterstitialAd;
-        private int countInterstitialAd = 0;
+        private static int countInterstitialAd = 0; //(static)for all fragment InterstitialAd after 3 post pressed
+        private int countNativeAd = 0;
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public String mBoundString;
@@ -197,6 +199,21 @@ public class CheeseListFragment extends Fragment {
             title.setTypeface(font);
             period.setTypeface(font);
             view.setBackgroundResource(mBackground);
+            countNativeAd++;
+            if(countNativeAd%2==0) {
+                //---------------Native ad-----------------
+
+                NativeExpressAdView adView = (NativeExpressAdView) view.findViewById(R.id.native_AdView);
+                adView.setVisibility(View.VISIBLE);
+
+                AdRequest request = new AdRequest.Builder()
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
+                        // Check the LogCat to get your test device ID
+                        .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
+                        .build();
+                adView.loadAd(request);
+                //----------------------------------------
+            }
             return new ViewHolder(view);
         }
 

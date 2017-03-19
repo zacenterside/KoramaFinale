@@ -43,6 +43,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.NativeExpressAdView;
 
 
 public class CheeseDetailActivity extends AppCompatActivity {
@@ -68,7 +69,19 @@ public class CheeseDetailActivity extends AppCompatActivity {
                 .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
                 .build();
         mAdView.loadAd(adRequest);
-        //--------------------------------
+
+
+        //---------------Native ad-----------------
+
+        NativeExpressAdView adView = (NativeExpressAdView)findViewById(R.id.native_AdView);
+
+        AdRequest request = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
+                // Check the LogCat to get your test device ID
+                .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
+                .build();
+        adView.loadAd(request);
+        //----------------------------------------
 
         Intent intent = getIntent();
         //final String cheeseName = intent.getStringExtra(EXTRA_NAME);
