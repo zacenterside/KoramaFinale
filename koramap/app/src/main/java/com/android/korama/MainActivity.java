@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
     public void showRateAppDialog(){
 
         new AlertDialog.Builder(this)
-                .setTitle("قيم Korama")
+                .setTitle(getResources().getString(R.string.rateUp_title))
                 .setMessage(getResources().getString(R.string.rateUp))
                 .setPositiveButton(getResources().getString(R.string.rateItNow), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

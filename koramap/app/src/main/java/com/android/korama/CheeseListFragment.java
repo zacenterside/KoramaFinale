@@ -200,7 +200,7 @@ public class CheeseListFragment extends Fragment {
             period.setTypeface(font);
             view.setBackgroundResource(mBackground);
             countNativeAd++;
-            if(countNativeAd%2==0) {
+            if(countNativeAd%7==0) {
                 //---------------Native ad-----------------
 
                 NativeExpressAdView adView = (NativeExpressAdView) view.findViewById(R.id.native_AdView);
