@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     ads:adUnitId="@string/ad_id_native"
                     ads:adSize="MEDIUM_RECTANGLE"
-                    android:layout_marginBottom="50dp">
+                    android:layout_marginBottom="90dp">
                 </com.google.android.gms.ads.NativeExpressAdView>
 
             </RelativeLayout>

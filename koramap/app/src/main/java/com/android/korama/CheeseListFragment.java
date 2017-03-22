@@ -199,15 +199,17 @@ public class CheeseListFragment extends Fragment {
             title.setTypeface(font);
             period.setTypeface(font);
             view.setBackgroundResource(mBackground);
+            //---------------Native ad-----------------
             countNativeAd++;
-            if(countNativeAd%7==0) {
-                //---------------Native ad-----------------
+            if(countNativeAd%5==0) { //((countNativeAd-2)%7==0)||
+
+
 
                 NativeExpressAdView adView = (NativeExpressAdView) view.findViewById(R.id.native_AdView);
                 adView.setVisibility(View.VISIBLE);
 
                 AdRequest request = new AdRequest.Builder()
-                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
+                        //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
                         // Check the LogCat to get your test device ID
                         .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
                         .build();
@@ -347,7 +349,7 @@ public class CheeseListFragment extends Fragment {
             mInterstitialAd.setAdUnitId(context.getString(R.string.ad_id_interstitial));
             //AdRequest adRequest = new AdRequest.Builder().build();
             AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // for test
+                    //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // for test
                     // Check the LogCat to get your test device ID
                     .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
                     .build();

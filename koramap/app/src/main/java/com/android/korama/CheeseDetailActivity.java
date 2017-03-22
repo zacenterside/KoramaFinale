@@ -64,7 +64,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
         //AdRequest adRequest = new AdRequest.Builder().build();
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// for test
                 // Check the LogCat to get your test device ID
                 .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
                 .build();

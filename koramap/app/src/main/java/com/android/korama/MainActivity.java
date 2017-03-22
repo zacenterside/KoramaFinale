@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     ProgressBar pb;
-    boolean rateOrNot;
+    int rateOrNot;
     InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rateOrNot= true;
+        rateOrNot= 0;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         //AdRequest adRequest = new AdRequest.Builder().build();
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // for test
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // for test
                 // Check the LogCat to get your test device ID
                 .addTestDevice("1E0E3A3F30546176A2722281C7620F4A")
                 .build();
@@ -272,8 +272,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
     public void onBackPressed(){
-        if(rateOrNot)
+        rateOrNot++;
+        if(rateOrNot%5 == 0)
             showRateAppDialog();
+        else
+            moveTaskToBack(true);
 
     }
 
@@ -296,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNeutralButton(getResources().getString(R.string.rateLater), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
-                        finish();
+                        moveTaskToBack(true);
                     }
                 })
                 //.setIcon(android.R.drawable.ic_dialog_alert)
