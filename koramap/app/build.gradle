@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.support.android.designlibdemo"
+        applicationId "com.korama.net"
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 1

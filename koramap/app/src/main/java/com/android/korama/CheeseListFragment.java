@@ -200,7 +200,7 @@ public class CheeseListFragment extends Fragment {
             period.setTypeface(font);
             view.setBackgroundResource(mBackground);
             //---------------Native ad-----------------
-            countNativeAd++;
+            /*countNativeAd++;
             if(countNativeAd%5==0) { //((countNativeAd-2)%7==0)||
 
 
@@ -215,7 +215,7 @@ public class CheeseListFragment extends Fragment {
                         .build();
                 adView.loadAd(request);
                 //----------------------------------------
-            }
+            }*/
             return new ViewHolder(view);
         }
 
@@ -290,14 +290,17 @@ public class CheeseListFragment extends Fragment {
                     intent.putExtra("Post", holder.mPost);
                     //----------Interstitial ad--------- (show ad at 0 and after 3 post clicks)
                     Log.v("RQ","countInterstitialAd "+countInterstitialAd);
-                    if(countInterstitialAd == 3)
+                    /*if(countInterstitialAd == 3)
                         countInterstitialAd = 0;
 
                     if (countInterstitialAd == 0) {
 
                         showInterstitial(v.getContext());
-                    }
+                    }*/
                     countInterstitialAd++;
+                    if(countInterstitialAd%4 == 0)
+                        showInterstitial(v.getContext());
+
 
                     //-----------------------------
                     context.startActivity(intent);
