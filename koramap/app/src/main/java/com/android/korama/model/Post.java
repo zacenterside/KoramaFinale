@@ -18,6 +18,7 @@ public class Post implements Serializable {
     private String category;
     private String status; //publish or not
     private String url;
+    private String iframe;
 
     public String getImageUrl() {
         return imageUrl;
@@ -105,5 +106,13 @@ public class Post implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getIframe() {
+        return iframe;
+    }
+
+    public void setIframe(String iframe) {
+        this.iframe = iframe;
     }
 }

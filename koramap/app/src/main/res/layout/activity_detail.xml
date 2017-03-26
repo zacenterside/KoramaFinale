@@ -103,7 +103,15 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/webContent"
                         android:layout_gravity="center"></WebView>
+                    <WebView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/webVideo"
+                        android:layout_gravity="center"
+                        >
 
+                    </WebView>
+                    <!--android:visibility="gone"-->
                     <!--<TextView
                         android:id="@+id/content_post"
                         android:layout_width="match_parent"

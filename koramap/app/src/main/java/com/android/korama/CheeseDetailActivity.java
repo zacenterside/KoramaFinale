@@ -51,6 +51,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
     public static final String EXTRA_NAME = "cheese_name";
     Post post;
     WebView webView;
+    WebView webVideo;
     Activity myActivity;
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -106,11 +107,10 @@ public class CheeseDetailActivity extends AppCompatActivity {
         toolbar.setPadding(toolbar.getPaddingLeft(),toolbar.getPaddingTop(),toolbar.getPaddingRight()+20,toolbar.getTitleMarginBottom());
         title.setText(post.getTitle());
 
-
          webView = (WebView) findViewById(R.id.webContent);
-        WebSettings w = webView.getSettings();
-        w.setPluginState(WebSettings.PluginState.ON);
-        w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+         webVideo = (WebView) findViewById(R.id.webVideo);
+        //w.setPluginState(WebSettings.PluginState.ON);
+        //w.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
         findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,14 +119,14 @@ public class CheeseDetailActivity extends AppCompatActivity {
             }
         });
 
-        w.setJavaScriptEnabled(true);
+
        // webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
         /*CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(post.getTitle());
         */
 
-        webView.getSettings().setJavaScriptEnabled(true);
+
 
         /*if (Build.VERSION.SDK_INT >= 14) { //this is for zoom not fon size :(
             webView.getSettings().setTextZoom((int)(webView.getSettings().getTextZoom() * 1.1));
@@ -136,31 +136,37 @@ public class CheeseDetailActivity extends AppCompatActivity {
         }*/
         //webView.getSettings().setDefaultFontSize(webView.getSettings().getDefaultFontSize()+10);
 
-        webView.setWebChromeClient(new WebChromeClient());
-        //webView.loadDataWithBaseURL(null, post.getContent(), "text/html", "UTF-8", null);
-        webView.loadDataWithBaseURL(post.getContent(), "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
+        //webView.setWebChromeClient(new WebChromeClient());
+        //webView.setWebViewClient(new WebViewClient());
         Log.d("COL","post content : "+post.getContent());
-        webView.getSettings().setUseWideViewPort(false);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
-        webView.setInitialScale(1);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-        webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int width = displaymetrics.widthPixels;
-        webView.setHorizontalScrollBarEnabled(false);
-        webView.setVerticalScrollBarEnabled(false);
+        //webView.getSettings().setUseWideViewPort(false);
+        //webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        //webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        //webView.setInitialScale(1);
+        //webView.setWebChromeClient(new WebChromeClient());
+        //webView.getSettings().setAllowFileAccess(true);
+        //webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        //webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+
+
+        //webView.getSettings().setLoadWithOverviewMode(true);
+        //webView.getSettings().setUseWideViewPort(true);
+        //DisplayMetrics displaymetrics = new DisplayMetrics();
+        //getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        //int height = displaymetrics.heightPixels;
+        //int width = displaymetrics.widthPixels;
+
 
         //webView.loadDataWithBaseURL("http://vimeo.com",  "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
         displayHtmlText(post.getContent(),"",webView);
+        Log.d("RQ","before post.getIframe() ");
+        if(post.getIframe() != null){
+            Log.d("RQ","post.getIframe() "+post.getIframe());
+            //webVideo.setVisibility(View.VISIBLE);
+            displayIframe(post.getIframe(),webVideo);
+
+
+        }
         loadBackdrop();
     }
 
@@ -186,26 +192,64 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public void displayIframe(String iframe,WebView webView){
+        WebSettings settings = webView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+
+        settings.setMinimumFontSize(18);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setVerticalScrollBarEnabled(false);
+        //settings.setLoadWithOverviewMode(true);
+        //settings.setUseWideViewPort(true);
+        //settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        //settings.setSupportMultipleWindows(true);
+        //settings.setBuiltInZoomControls(true);
+        //webView.setHorizontalScrollBarEnabled(false);
+        //webView.setVerticalScrollBarEnabled(false);
+
+
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
+
+        String changeFontHtml = changedHeaderHtml(iframe);
+        Log.d("RQ","changeFontHtml webVideo "+changeFontHtml);
+        webView.loadDataWithBaseURL("http://vimeo.com", changeFontHtml , "text/html", "UTF-8", null);
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public void displayHtmlText(String htmlContent, String message,
                                 WebView webView){
 
         WebSettings settings = webView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
         settings.setMinimumFontSize(18);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setVerticalScrollBarEnabled(false);
 
+        webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
         String changeFontHtml = changedHeaderHtml(htmlContent);
+        Log.d("RQ","changeFontHtml webView "+changeFontHtml);
         webView.loadDataWithBaseURL("http://vimeo.com", changeFontHtml , "text/html", "UTF-8", null);
+
+
     }
 
     public String changedHeaderHtml(String htmlText) {
 
-        String head = "<html dir=\"rtl\" lang=\"\"><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\" /> <style type=\"text/css\"> .post_text{font-size: 220%;width:220%;}</style></head>";
+        String head = "<html dir=\"rtl\" lang=\"\"><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=yes\" /> <style type=\"text/css\"> .post_text{font-size: 220%;width:220%;}</style></head><body>";
 
         String closedTag = "</body></html>";
         String changeFontHtml = head + htmlText + closedTag;

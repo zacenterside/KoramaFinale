@@ -323,7 +323,7 @@ public class CheeseListFragment extends Fragment {
                             //Try again online if cache failed
                             p.with(holder.mImageView.getContext())
                                     .load(mValues.get(position).getImage_url())
-                                    .error(R.drawable.a)
+                                    .error(R.drawable.post_holder)
                                     .into(holder.mImageView, new Callback() {
                                         @Override
                                         public void onSuccess() {
