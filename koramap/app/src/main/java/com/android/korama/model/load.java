@@ -106,8 +106,31 @@ public class load {
                     if(i < Util.getListCategorie(categorie).size())
                         Util.getListCategorie(categorie).set(i,p) ;
                     else
-                        Util.getListCategorie(categorie).add(p) ;}
-                System.out.println("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+                        Util.getListCategorie(categorie).add(p) ;
+                }
+
+
+                JSONObject custom_fields = article.getJSONObject("custom_fields");
+                Log.d("RQ","custom_fields : "+ custom_fields);
+                Log.d("RQ","ggg");
+                if(custom_fields.has("tie_embed_code")){ //custom_fields{ ..{tie_embed_code[myIframeVideo,...]}
+                    System.out.println("before in");
+                    Log.d("RQ","before in");
+                    //String video = article.getJSONObject("custom_fields").getJSONArray("tie_embed_code").getString(0);
+                    JSONArray tie_embed_code = custom_fields.getJSONArray("tie_embed_code");
+                    Log.d("RQ","tie_embed_code : "+ tie_embed_code);
+                    String video = tie_embed_code.getString(0);
+                    Log.d("RQ","video : "+ video);
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        p.setIframe(Html.fromHtml(video, Html.FROM_HTML_MODE_LEGACY).toString());
+                    }else
+                    {
+                        p.setIframe(Html.fromHtml(video).toString());
+                    }
+                    System.out.println("iframe : "+ video);
+                    Log.d("RQ","iframe : "+ video);
+                }
+                System.out.println("fuuuuuckinnng log");
 
             }
             // Log.d("RQ","model posts : "+Util.posts);
