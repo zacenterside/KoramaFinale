@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "983998763590",
+    "firebase_url": "https://korama-48d5c.firebaseio.com",
+    "project_id": "korama-48d5c",
+    "storage_bucket": "korama-48d5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983998763590:android:bba24ba4b3fc4129",
+        "android_client_info": {
+          "package_name": "com.www.korama.net"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983998763590-2o4e4lehq18rmkam9oq6teirfhqba5kc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.www.korama.net",
+            "certificate_hash": "ddf9a183e522a41604a1e4122226a288d391d468"
+          }
+        },
+        {
+          "client_id": "983998763590-032u8tbo9tgsugfe9le1hje0p5gneist.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA83d0bNeuLoL2ywvv5hyn_u8saDaEyogA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983998763590-032u8tbo9tgsugfe9le1hje0p5gneist.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

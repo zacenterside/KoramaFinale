@@ -105,7 +105,9 @@ public class CheeseDetailActivity extends AppCompatActivity {
         collapsingToolbar.setExpandedTitleTypeface(font);
 
         toolbar.setPadding(toolbar.getPaddingLeft(),toolbar.getPaddingTop(),toolbar.getPaddingRight()+20,toolbar.getTitleMarginBottom());
-        title.setText(post.getTitle());
+        if(post.getTitle() != null) {
+            title.setText(post.getTitle());
+        }
 
          webView = (WebView) findViewById(R.id.webContent);
          webVideo = (WebView) findViewById(R.id.webVideo);
@@ -138,7 +140,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
         //webView.setWebChromeClient(new WebChromeClient());
         //webView.setWebViewClient(new WebViewClient());
-        Log.d("COL","post content : "+post.getContent());
+
         //webView.getSettings().setUseWideViewPort(false);
         //webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         //webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
@@ -158,7 +160,10 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
 
         //webView.loadDataWithBaseURL("http://vimeo.com",  "<html dir=\"rtl\" lang=\"\"><body>" + post.getContent() + "</body></html>", "text/html", "UTF-8", null);
-        displayHtmlText(post.getContent(),"",webView);
+        if(post.getContent() != null) {
+            Log.d("COL","post content : "+post.getContent());
+            displayHtmlText(post.getContent(), "", webView);
+        }
         Log.d("RQ","before post.getIframe() ");
         if(post.getIframe() != null){
             Log.d("RQ","post.getIframe() "+post.getIframe());
@@ -167,7 +172,8 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
 
         }
-        loadBackdrop();
+        if(post.getImage_url() != null)
+            loadBackdrop();
     }
 
     private void loadBackdrop() {

@@ -1,8 +1,11 @@
 package com.android.korama;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -23,6 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +40,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar pb;
     int rateOrNot;
     InterstitialAd mInterstitialAd;
+    /*private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("MessageService", " --------- onReceive ---------");
+        }
+    };*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
         rateOrNot= 0;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //----------Notification----------
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("new_article");
+
+        //registerReceiver(myReceiver, new IntentFilter(MessageService.INTENT_FILTER));
+
+        //-----------End Notification-----
 
         //---------banner ad--------------
         MobileAds.initialize(getApplicationContext(), getResources().getString(R.string.admob_id));
@@ -385,4 +405,10 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentTitles.get(position);
         }
     }
+/*
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(myReceiver);
+        super.onDestroy();
+    }*/
 }
