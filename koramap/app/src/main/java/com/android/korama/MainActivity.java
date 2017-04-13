@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar pb;
     int rateOrNot;
     InterstitialAd mInterstitialAd;
+     ViewPager viewPager;
     /*private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
 
@@ -83,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
         }).subscribe(new Subscriber<Object>() {
             @Override
             public void onCompleted() {
-
+                if (viewPager != null) {
+                    setupViewPager(viewPager);
+                }
             }
 
             @Override
@@ -169,10 +173,8 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
         navigationView.setItemIconTintList(null);
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
+
+
 
        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
