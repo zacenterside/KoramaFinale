@@ -204,43 +204,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
-
-
-        vals.flatMap(new Func1<load, Observable<?>>() {
-            @Override
-            public Observable<?> call(load getDataTask) {
-                return Observable.just(getDataTask).subscribeOn(Schedulers.newThread())
-                        .map(new Func1<load, Object>() {
-                            @Override
-                            public Object call(load getDataTask) {
-                                return getDataTask.load();
-                            }
-                        });
-            }
-        }).subscribe(new Subscriber<Object>() {
-            @Override
-            public void onCompleted() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    adapter.notifyDataSetChanged();
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Object o) {
-                System.out.println("Received " + (o) +
-                        " on thread " + Thread.currentThread().getName());
-            }});
 
     }
 
@@ -445,7 +408,53 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentTitles.get(position);
         }
     }
-/*
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
+
+
+        vals.flatMap(new Func1<load, Observable<?>>() {
+            @Override
+            public Observable<?> call(load getDataTask) {
+                return Observable.just(getDataTask).subscribeOn(Schedulers.newThread())
+                        .map(new Func1<load, Object>() {
+                            @Override
+                            public Object call(load getDataTask) {
+                                return getDataTask.load();
+                            }
+                        });
+            }
+        }).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                System.out.println("Received " + (o) +
+                        " on thread " + Thread.currentThread().getName());
+            }});
+
+    }
+
+
+    /*
     @Override
     protected void onDestroy() {
         unregisterReceiver(myReceiver);

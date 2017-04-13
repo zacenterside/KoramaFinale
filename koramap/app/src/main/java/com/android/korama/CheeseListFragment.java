@@ -38,7 +38,6 @@ import com.android.korama.model.Post;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.NativeExpressAdView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.NetworkPolicy;
@@ -368,8 +367,9 @@ public class CheeseListFragment extends Fragment {
         }
     }
 
-
-
-
-
+    @Override
+    public void onResume() {
+        new LoadData.GetDataTask(rv,getContext(),0,categorie,mPosts,false,srl).execute();
+        super.onResume();
+    }
 }
