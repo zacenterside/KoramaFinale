@@ -44,7 +44,9 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
 
-        <activity android:name=".PrintHttpResultTest">
+        <activity android:name=".PrintHttpResultTest"
+                  android:theme="@style/SplashTheme"
+                  android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

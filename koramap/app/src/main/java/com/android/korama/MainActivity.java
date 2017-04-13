@@ -1,11 +1,8 @@
 package com.android.korama;
 
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -17,7 +14,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -26,15 +22,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.korama.model.load;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -44,6 +39,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Chaimaa on 06/03/2017.
@@ -65,6 +65,44 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
+
+
+        vals.flatMap(new Func1<load, Observable<?>>() {
+            @Override
+            public Observable<?> call(load getDataTask) {
+                return Observable.just(getDataTask).subscribeOn(Schedulers.newThread())
+                        .map(new Func1<load, Object>() {
+                            @Override
+                            public Object call(load getDataTask) {
+                                return getDataTask.load();
+                            }
+                        });
+            }
+        }).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                System.out.println("Received " + (o) +
+                        " on thread " + Thread.currentThread().getName());
+            }});
+
+        initView();
+    }
+
+    private void initView(){
+
+
         rateOrNot= 0;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -112,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         iv.setLayoutParams(lp);
         iv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_logo));
-        
+
         */
         final ActionBar ab = getSupportActionBar();
 
@@ -130,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-       navigationView.setItemIconTintList(null);
+        navigationView.setItemIconTintList(null);
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
@@ -194,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(9);
                         break;
                     case R.id.about:
-                       startActivity(new Intent(MainActivity.this,About.class));
+                        startActivity(new Intent(MainActivity.this,About.class));
                         break;
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
