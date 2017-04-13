@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.korama.model.load;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -38,6 +39,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Chaimaa on 06/03/2017.
@@ -49,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar pb;
     int rateOrNot;
     InterstitialAd mInterstitialAd;
+    Adapter adapter = new Adapter(getSupportFragmentManager());
     /*private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -197,6 +204,43 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
+
+
+        vals.flatMap(new Func1<load, Observable<?>>() {
+            @Override
+            public Observable<?> call(load getDataTask) {
+                return Observable.just(getDataTask).subscribeOn(Schedulers.newThread())
+                        .map(new Func1<load, Object>() {
+                            @Override
+                            public Object call(load getDataTask) {
+                                return getDataTask.load();
+                            }
+                        });
+            }
+        }).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    adapter.notifyDataSetChanged();
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                System.out.println("Received " + (o) +
+                        " on thread " + Thread.currentThread().getName());
+            }});
 
     }
 
@@ -262,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         viewPager.setVerticalScrollBarEnabled(true);
         viewPager.setHorizontalScrollBarEnabled(true);
-        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CheeseListFragment().setCategorie(3,pb), getResources().getString(R.string.category_1));
         adapter.addFragment(new CheeseListFragment().setCategorie(7,pb),  getResources().getString(R.string.category_5));
         adapter.addFragment(new CheeseListFragment().setCategorie(10,pb),  getResources().getString(R.string.category_9));
