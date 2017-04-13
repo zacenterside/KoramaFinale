@@ -35,13 +35,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.korama.model.Post;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.LruCache;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -305,37 +302,8 @@ public class CheeseListFragment extends Fragment {
                     context.startActivity(intent);
                 }
             });
-            final Picasso p = new Picasso.Builder(holder.mImageView.getContext())
-                    .memoryCache(new LruCache(240000))
-                    .build();
-                p.with(holder.mImageView.getContext())
-                    .load(mValues.get(position).getImage_url())
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(holder.mImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
+            Glide.with(holder.mImageView.getContext()).load(mValues.get(position).getImage_url()).into(holder.mImageView);
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            //Try again online if cache failed
-                            p.with(holder.mImageView.getContext())
-                                    .load(mValues.get(position).getImage_url())
-                                    .error(R.drawable.post_holder)
-                                    .into(holder.mImageView, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-
-                                        }
-
-                                        @Override
-                                        public void onError() {
-                                            Log.v("Picasso","Could not fetch image");
-                                        }
-                                    });
-                        }
-                    });
 
         }
 
