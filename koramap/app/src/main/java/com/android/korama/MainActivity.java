@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     int rateOrNot;
     InterstitialAd mInterstitialAd;
      ViewPager viewPager;
+    Adapter adapter;
     /*private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
+        adapter = new Adapter(getSupportFragmentManager());
         Observable<load> vals = Observable.just(new load(0,3),new load(0,4),new load(0,5),new load(0,6),new load(0,7),new load(0,8),new load(0,9),new load(0,1),new load(0,10));
 
 
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompleted() {
                 if (viewPager != null) {
-                    setupViewPager(viewPager);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -242,6 +243,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setupViewPager(viewPager);
+
     }
 
     //-----start : if u delete this drop-down menu will not work ??? --to check later---
@@ -306,7 +309,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         viewPager.setVerticalScrollBarEnabled(true);
         viewPager.setHorizontalScrollBarEnabled(true);
-        Adapter adapter = new Adapter(getSupportFragmentManager());
+
+        adapter.notifyDataSetChanged();
         adapter.addFragment(new CheeseListFragment().setCategorie(3,pb), getResources().getString(R.string.category_1));
         adapter.addFragment(new CheeseListFragment().setCategorie(7,pb),  getResources().getString(R.string.category_5));
         adapter.addFragment(new CheeseListFragment().setCategorie(10,pb),  getResources().getString(R.string.category_9));
