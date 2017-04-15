@@ -4,9 +4,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -79,7 +81,7 @@ public class MessageService extends FirebaseMessagingService {
     private void onNewArticleMessage(Map<String, String> data) {
         String title = data.get("title");
         if (!TextUtils.isEmpty(title)) {
-           String body = data.get("body");
+
            /* Notification notification = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_cat1)
                     .setColor(0xFFFFD146)
@@ -96,12 +98,7 @@ public class MessageService extends FirebaseMessagingService {
             showNotification(6, notification);*/
 
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setColor(ContextCompat.getColor(this,R.color.primary))
-                            .setContentTitle(getResources().getString(R.string.app_title))
-                            .setContentText(body);
+            int requestID = (int) System.currentTimeMillis();
 
             Intent resultIntent = new Intent(this, CheeseDetailActivity.class);
             //Intent upIntent = new Intent(this, PrintHttpResultTest.class);
@@ -113,7 +110,21 @@ public class MessageService extends FirebaseMessagingService {
             //stackBuilder.addNextIntent(resultIntent);
 
             Post post = new Post();
+            Log.d(TAG, "Title: " + title);
             post.setTitle(title);
+            post.setContent(data.get("content"));
+            post.setImage_url(data.get("image"));
+            String video = data.get("embed_code");
+            Log.d(TAG, "video: " + video);
+            if(video !=null){
+                if (Build.VERSION.SDK_INT >= 24) {
+                    post.setIframe(Html.fromHtml(video, Html.FROM_HTML_MODE_LEGACY).toString());
+                }else
+                {
+                    post.setIframe(Html.fromHtml(video).toString());
+                }
+            }
+            Log.d(TAG, "video post : " + post.getIframe());
             resultIntent.putExtra("Post",post);
 
             /*PendingIntent resultPendingIntent =
@@ -123,14 +134,23 @@ public class MessageService extends FirebaseMessagingService {
                             resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );*/
+            resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent resultPendingIntent =
                     TaskStackBuilder.create(this)
                             // add all of DetailsActivity's parents to the stack,
                             // followed by DetailsActivity itself
                              .addNextIntentWithParentStack(resultIntent)
-                              //.addParentStack(CheeseDetailActivity.class)
-                              //.addNextIntent(resultIntent)
-                              .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                            //.addParentStack(CheeseDetailActivity.class)
+                            //.addNextIntent(resultIntent)
+                              .getPendingIntent(requestID, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setColor(ContextCompat.getColor(this,R.color.primary))
+                            .setContentTitle(getResources().getString(R.string.app_title))
+                            .setContentText(title)
+                            .setAutoCancel(true);
 
             mBuilder.setContentIntent(resultPendingIntent);
             notificationId ++;
