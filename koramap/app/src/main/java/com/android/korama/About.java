@@ -18,7 +18,7 @@ public class About extends AppCompatActivity {
                 .setImage(R.drawable.ic_logo)
                 .addEmail("korama.net@gmail.com")
                 .addWebsite("http://korama.net/")
-                .addFacebook("korama")
+                .addFacebook("korama.net")
                 .addTwitter("koramafan")
                 .addYoutube("korama1")
                 //.addEmail("redqueenix@gmail.com","Contactez Senpaii Team")

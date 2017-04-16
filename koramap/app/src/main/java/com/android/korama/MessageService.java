@@ -4,8 +4,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -113,7 +117,8 @@ public class MessageService extends FirebaseMessagingService {
             Log.d(TAG, "Title: " + title);
             post.setTitle(title);
             post.setContent(data.get("content"));
-            post.setImage_url(data.get("image"));
+            String imageUrl = data.get("image");
+            post.setImage_url(imageUrl);
             String video = data.get("embed_code");
             Log.d(TAG, "video: " + video);
             if(video !=null){
@@ -127,13 +132,8 @@ public class MessageService extends FirebaseMessagingService {
             Log.d(TAG, "video post : " + post.getIframe());
             resultIntent.putExtra("Post",post);
 
-            /*PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            this,
-                            0,
-                            resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );*/
+            Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent resultPendingIntent =
                     TaskStackBuilder.create(this)
@@ -144,26 +144,33 @@ public class MessageService extends FirebaseMessagingService {
                             //.addNextIntent(resultIntent)
                               .getPendingIntent(requestID, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setColor(ContextCompat.getColor(this,R.color.primary))
+            Bitmap NotifBitmap = Post.getBitmapFromURL(imageUrl);
+            Notification.Style pictureStyle = new Notification.BigPictureStyle()
+                    .bigPicture(NotifBitmap).setSummaryText(title);
+
+            Notification.Builder mBuilder =
+                    new Notification.Builder(this)
+                            .setSmallIcon(R.drawable.small_notif_ic)
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                                    R.mipmap.ic_launcher))
+                            .setStyle(pictureStyle)
                             .setContentTitle(getResources().getString(R.string.app_title))
                             .setContentText(title)
+                            .setSound(defaultSoundUri)
                             .setAutoCancel(true);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mBuilder.setColor(ContextCompat.getColor(this,R.color.primary));
+            }
             mBuilder.setContentIntent(resultPendingIntent);
             notificationId ++;
             Log.d(TAG, "notificationId: " + notificationId);
-            setNotificationClick(mBuilder);
+
             showNotification(notificationId, mBuilder.build());
 
         }
     }
-    private  void setNotificationClick(NotificationCompat.Builder mBuilder){
-        //Intent intent = new Intent(context, CheeseDetailActivity.class);
 
-    }
 
     private void showNotification(int id, Notification notification) {
 

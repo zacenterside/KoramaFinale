@@ -130,7 +130,7 @@ public class LoadData {
                     Log.d("RQ","date : "+p.getDt());
                     if(article.has("thumbnail_images")){
                             JSONObject image = article.getJSONObject("thumbnail_images");
-                            JSONObject image_full = image.getJSONObject("medium");
+                            JSONObject image_full = image.getJSONObject("full");
                             p.setImage_url(image_full.getString("url"));
                             //Log.d("RQ","image full url : "+image_full.getString("url"));
 

@@ -289,17 +289,18 @@ public class CheeseListFragment extends Fragment {
                     intent.putExtra("Post", holder.mPost);
                     //----------Interstitial ad--------- (show ad at 0 and after 3 post clicks)
 
-                    /*if(countInterstitialAd == 3)
+                    if(countInterstitialAd == 3)
                         countInterstitialAd = 0;
 
                     if (countInterstitialAd == 0) {
 
                         showInterstitial(v.getContext());
-                    }*/
+                    }
                     countInterstitialAd++;
+                    /*countInterstitialAd++;
                     Log.v("RQ","countInterstitialAd "+countInterstitialAd);
                     if(countInterstitialAd%3 == 0)
-                        showInterstitial(v.getContext());
+                        showInterstitial(v.getContext());*/
 
 
                     //-----------------------------
