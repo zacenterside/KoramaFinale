@@ -12,7 +12,6 @@ import android.os.Build;
 
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,6 +19,7 @@ import com.android.korama.model.Post;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -116,10 +116,23 @@ public class MessageService extends FirebaseMessagingService {
             Post post = new Post();
             Log.d(TAG, "Title: " + title);
             post.setTitle(title);
-            post.setContent(data.get("content"));
+            String content =data.get("content");
+
+            Log.d(TAG, "content: " + content);
+
+            List<String> devided= Post.devideIframeFromContent(data.get("content"));
+            String cleanContent = devided.get(0);
+            String videoP = devided.get(1);
+
+            Log.d(TAG, "cleanContent: " + cleanContent);
+            Log.d(TAG, "videoP: " + videoP);
+            post.setContent(cleanContent);
+            if(!videoP.equals(""))
+                post.setIframe(videoP);
+
             String imageUrl = data.get("image");
             post.setImage_url(imageUrl);
-            String video = data.get("embed_code");
+            /*String video = data.get("embed_code");
             Log.d(TAG, "video: " + video);
             if(video !=null){
                 if (Build.VERSION.SDK_INT >= 24) {
@@ -130,6 +143,8 @@ public class MessageService extends FirebaseMessagingService {
                 }
             }
             Log.d(TAG, "video post : " + post.getIframe());
+            */
+
             resultIntent.putExtra("Post",post);
 
             Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

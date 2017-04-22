@@ -9,13 +9,16 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Chaimaa on 06/03/2017.
@@ -144,45 +147,35 @@ public class Post implements Serializable {
             return null;
         }
     }
-    public static Bitmap drawTextToBitmap(Bitmap bitmap,
-                                   String gText) {
+    public static List<String> devideIframeFromContent(String post){
+        List returns = new ArrayList<>();
+        Log.d("RQ","*****video from post");
+        String iframes = "";
+        String iframe ="";
+        String cleanPost = post;
 
+        int startIndex = -1;
+        int endIndex = -1;
 
-        android.graphics.Bitmap.Config bitmapConfig =
-                bitmap.getConfig();
-        // set default bitmap config if none
-        if(bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
-        }
-        // resource bitmaps are imutable,
-        // so we need to convert it to mutable one
-        bitmap = bitmap.copy(bitmapConfig, true);
+        do {
+            if(cleanPost.equals("")) break;
+            startIndex = cleanPost.indexOf("<iframe");
+            Log.d("RQ", "startIndex " + startIndex);
+            endIndex = cleanPost.indexOf("</iframe>");
+            Log.d("RQ", "endIndex " + endIndex);
 
-        Canvas canvas = new Canvas(bitmap);
-        // new antialised Paint
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // text color - #3D3D3D
-        paint.setColor(Color.WHITE);
-        // text size in pixels
-        paint.setTextSize((int) (25));
-        // text shadow
-        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+            if (startIndex != -1 && endIndex != -1) {
+                iframe = cleanPost.substring(startIndex, endIndex + 9);
+                cleanPost = cleanPost.replace(iframe, "");
+                iframes += iframe;
 
-        // draw text to the Canvas center
-        Rect bounds = new Rect();
-        paint.getTextBounds(gText, 0, gText.length(), bounds);
-        int x = (bitmap.getWidth() - bounds.width())/2;
-        int y = (bitmap.getHeight() + bounds.height())/2;
+            }
+        }while(startIndex!=-1 && endIndex != -1);
 
-        canvas.drawText(gText, x, y, paint);
-
-        return bitmap;
+        returns.add(cleanPost);
+        returns.add(iframes);
+        return returns;
     }
-    private static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
-        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
-        Canvas canvas = new Canvas(bmOverlay);
-        canvas.drawBitmap(bmp1, new Matrix(), null);
-        canvas.drawBitmap(bmp2, new Matrix(), null);
-        return bmOverlay;
-    }
+
+
 }

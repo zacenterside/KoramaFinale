@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by Dell Latitude E7470 on 14/03/2017.
@@ -82,7 +83,19 @@ public class load {
                 p.setTitle(goodTitle);
 
 
-                p.setContent(article.getString("content"));
+                //p.setContent(article.getString("content"));
+                Log.d("RQ", "Content before devided: " + article.getString("content"));
+                List<String> devided= Post.devideIframeFromContent(article.getString("content"));
+                String cleanContent = devided.get(0);
+                String videoP = devided.get(1);
+
+                Log.d("RQ", "cleanContent: " + cleanContent);
+                Log.d("RQ", "videoP: " + videoP);
+                p.setContent(cleanContent);
+
+                if(!videoP.equals(""))
+                    p.setIframe(videoP);
+
                 p.setUrl(article.getString("url"));
 
                 p.setStatus(article.getString("status"));
@@ -110,7 +123,7 @@ public class load {
                 }
 
 
-                JSONObject custom_fields = article.getJSONObject("custom_fields");
+                /*JSONObject custom_fields = article.getJSONObject("custom_fields");
                 Log.d("RQ","custom_fields : "+ custom_fields);
                 Log.d("RQ","ggg");
                 if(custom_fields.has("tie_embed_code")){ //custom_fields{ ..{tie_embed_code[myIframeVideo,...]}
@@ -121,6 +134,7 @@ public class load {
                     Log.d("RQ","tie_embed_code : "+ tie_embed_code);
                     String video = tie_embed_code.getString(0);
                     Log.d("RQ","video : "+ video);
+
                     if (Build.VERSION.SDK_INT >= 24) {
                         p.setIframe(Html.fromHtml(video, Html.FROM_HTML_MODE_LEGACY).toString());
                     }else
@@ -129,8 +143,8 @@ public class load {
                     }
                     System.out.println("iframe : "+ video);
                     Log.d("RQ","iframe : "+ video);
-                }
-                System.out.println("fuuuuuckinnng log");
+                }*/
+
 
             }
             // Log.d("RQ","model posts : "+Util.posts);
